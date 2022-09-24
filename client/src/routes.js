@@ -1,6 +1,21 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+// Product
+const Category = React.lazy(() => import('./views/category/Category'))
+const Destination = React.lazy(() => import('./views/destination/Destination'))
+const PackageTrip = React.lazy(() => import('./views/packageTrip/PackageTrip'))
+
+// Review
+const ReviewDestination = React.lazy(() => import('./views/review/ReviewDestination'))
+const ReviewPackageTrip = React.lazy(() => import('./views/review/ReviewPackageTrip'))
+
+// User
+const User = React.lazy(() => import('./views/user/User'))
+
+// Profile
+const Profile = React.lazy(() => import('./views/profile/Profile'))
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -53,6 +68,13 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/category', name: 'Category', element: Category },
+  { path: '/destination', name: 'Destination', element: Destination },
+  { path: '/package-trip', name: 'PackageTrip', element: PackageTrip },
+  { path: '/review/destination', name: 'ReviewDestination', element: ReviewDestination },
+  { path: '/review/package-trip', name: 'ReviewPackageTrip', element: ReviewPackageTrip },
+  { path: '/user', name: 'User', element: User },
+  { path: '/profile', name: 'Profile', element: Profile },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
