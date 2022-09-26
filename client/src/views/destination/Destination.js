@@ -6,6 +6,7 @@ import {
   addDestination,
   delDestination,
   updDestination,
+  getImgDestiId,
 } from '../../axios/axiosDestination'
 import { getCategories } from '../../axios/axiosCategory'
 
@@ -32,11 +33,13 @@ import {
   CFormSelect,
   CFormTextarea,
   CAlert,
+  CCardImage,
+  CModalContent,
 } from '@coreui/react'
 import { cilTrash, cilBurn } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-const Category = () => {
+const Destination = () => {
   // ! bagian tampil destination
   // tampilkan destination
   const [destination, setDestination] = useState([])
@@ -80,6 +83,7 @@ const Category = () => {
   // edit destination
   const [catId, setCatId] = useState()
   const [formEdit, setFormEdit] = useState({})
+  // console.log(formEdit)
 
   const btnEdit = (id) => {
     getDestinationById(id, (res) => {
@@ -114,6 +118,8 @@ const Category = () => {
 
   const [visible, setVisible] = useState(false)
   const [visible2, setVisible2] = useState(false)
+  const [visible3, setVisible3] = useState(false)
+  const [visible4, setVisible4] = useState(false)
 
   // ! bagian tampil category
   // tampilkan category
@@ -122,6 +128,17 @@ const Category = () => {
     getCategories((res) => setCategories(res))
   }, [])
   // console.log(categories)
+
+  // Image Destination By id
+  const [getDestiImg, setDestiImg] = useState([])
+  const [idImg, setIdImg] = useState([])
+
+  const btnImg = (id) => {
+    getImgDestiId(id, (res) => {
+      setDestiImg(res)
+    })
+  }
+  console.log(getDestiImg)
 
   return (
     <CRow>
@@ -258,7 +275,7 @@ const Category = () => {
           </CModal>
         </CCardBody>
 
-        {/* Category Table */}
+        {/* Destination Table */}
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="light">
             <CTableRow>
@@ -266,6 +283,7 @@ const Category = () => {
               <CTableHeaderCell>Name</CTableHeaderCell>
               <CTableHeaderCell>Category</CTableHeaderCell>
               <CTableHeaderCell>Address</CTableHeaderCell>
+              <CTableHeaderCell>Description</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
@@ -278,7 +296,7 @@ const Category = () => {
                   <strong>{dest.id}</strong>
                 </CTableDataCell>
                 <CTableDataCell>
-                  <div>{dest.name}</div>
+                  <strong>{dest.name}</strong>
                   <div className="small text-medium-emphasis">
                     <span>{dest.open_day}</span>
                   </div>
@@ -291,7 +309,6 @@ const Category = () => {
                   <div>{dest.category.name}</div>
                 </CTableDataCell>
 
-                {/* DETAIL */}
                 <CTableDataCell>
                   <div>{dest.address}</div>
                   <div className="small text-medium-emphasis">
@@ -299,8 +316,75 @@ const Category = () => {
                   </div>
                 </CTableDataCell>
 
+                <CTableDataCell>
+                  <CButton color="info" shape="rounded-pill" onClick={() => setVisible3(!visible)}>
+                    Description
+                  </CButton>
+                  <CModal visible={visible3} onClose={() => setVisible3(false)}>
+                    <CModalHeader onClose={() => setVisible3(false)}>
+                      <CModalTitle>Description </CModalTitle>
+                    </CModalHeader>
+                    <CModalBody>{dest.description}</CModalBody>
+                    <CModalFooter>
+                      <CButton color="secondary" onClick={() => setVisible3(false)}>
+                        Close
+                      </CButton>
+                    </CModalFooter>
+                  </CModal>
+                </CTableDataCell>
+
                 {/* ACTION */}
                 <CTableDataCell className="text-center">
+                  <CButton
+                    color="success"
+                    shape="rounded-pill"
+                    onClick={() => (btnImg(dest.id), setVisible4(!visible))}
+                  >
+                    Add Image
+                  </CButton>
+                  <CModal size="xl" visible={visible4} onClose={() => setVisible4(false)}>
+                    <CModalHeader onClose={() => setVisible4(false)}>
+                      <CModalTitle>Image</CModalTitle>
+                    </CModalHeader>
+
+                    <CModalBody>
+                      <CModalBody>
+                        <CFormInput
+                          type="file"
+                          id="inputGroupFile01"
+                          onChange={(e) => loadImage(e)}
+                          required
+                        />
+                        <CModalBody>
+                          <CButton href="#" color="primary">
+                            Add Image
+                          </CButton>
+                        </CModalBody>
+                      </CModalBody>
+
+                      <CRow className="align-items-start">
+                        {getDestiImg.map((destImg, index) => (
+                          <CCard key={index} style={{ width: '18rem' }}>
+                            <CCardImage
+                              orientation="top"
+                              height={200}
+                              src={'http://localhost:3000/' + destImg.img}
+                            />
+                            <CCardBody>
+                              <CButton href="#" color="danger">
+                                <CIcon icon={cilTrash}></CIcon>
+                              </CButton>
+                            </CCardBody>
+                          </CCard>
+                        ))}
+                      </CRow>
+                    </CModalBody>
+                    <CModalFooter>
+                      <CButton color="secondary" onClick={() => setVisible4(false)}>
+                        Close
+                      </CButton>
+                    </CModalFooter>
+                  </CModal>
                   <CButton
                     color="primary"
                     shape="rounded-pill"
@@ -308,18 +392,78 @@ const Category = () => {
                   >
                     Edit
                   </CButton>
-                  <CModal visible={visible2} onClose={() => setVisible2(false)}>
+                  <CModal size="xl" visible={visible2} onClose={() => setVisible2(false)}>
                     <CModalHeader onClose={() => setVisible2(false)}>
-                      <CModalTitle>Edit Category </CModalTitle>
+                      <CModalTitle>Edit Destination </CModalTitle>
                     </CModalHeader>
                     <CModalBody>
                       <CForm>
+                        <CFormLabel htmlFor="exampleFormControlInput1">Name</CFormLabel>
                         <CFormInput
                           type="text"
                           value={formEdit.name}
                           className="form-control"
                           id="name"
                           onChange={(e) => setFormEdit({ name: e.target.value })}
+                        />
+
+                        <CFormLabel htmlFor="exampleFormControlInput1">Category</CFormLabel>
+                        <CFormSelect
+                          id="inputGroupSelect01"
+                          onChange={(e) => setFormEdit({ categoryId: e.target.value })}
+                          required
+                        >
+                          <option hidden>Category</option>
+                          {categories.map((cat, index) => (
+                            <option key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </CFormSelect>
+
+                        <CFormLabel htmlFor="exampleFormControlInput1">Address</CFormLabel>
+                        <CFormInput
+                          type="text"
+                          value={formEdit.address}
+                          className="form-control"
+                          id="address"
+                          onChange={(e) => setFormEdit({ address: e.target.value })}
+                        />
+
+                        <CFormLabel htmlFor="exampleFormControlInput1">Open Day</CFormLabel>
+                        <CFormInput
+                          type="text"
+                          value={formEdit.open_day}
+                          className="form-control"
+                          id="open_day"
+                          onChange={(e) => setFormEdit({ open_day: e.target.value })}
+                        />
+
+                        <CFormLabel htmlFor="exampleFormControlInput1">Open Time</CFormLabel>
+                        <CFormInput
+                          type="text"
+                          value={formEdit.open_time}
+                          className="form-control"
+                          id="open_time"
+                          onChange={(e) => setFormEdit({ open_time: e.target.value })}
+                        />
+
+                        <CFormLabel htmlFor="exampleFormControlInput1">Map Link</CFormLabel>
+                        <CFormInput
+                          type="text"
+                          value={formEdit.map_link}
+                          className="form-control"
+                          id="map_link"
+                          onChange={(e) => setFormEdit({ map_link: e.target.value })}
+                        />
+
+                        <CFormLabel htmlFor="exampleFormControlInput1">Description</CFormLabel>
+                        <CFormTextarea
+                          type="text"
+                          value={formEdit.description}
+                          className="form-control"
+                          id="description"
+                          onChange={(e) => setFormEdit({ description: e.target.value })}
                         />
                       </CForm>
                     </CModalBody>
@@ -332,7 +476,6 @@ const Category = () => {
                       </CButton>
                     </CModalFooter>
                   </CModal>
-
                   {/* Button Delete */}
                   <CButton
                     color="danger"
@@ -351,4 +494,4 @@ const Category = () => {
   )
 }
 
-export default Category
+export default Destination

@@ -54,6 +54,18 @@ const delDestination = async (id) => {
   }
 }
 
+const getImgDestiId = async (id, cb) => {
+  try {
+    let result = await axios({
+      method: 'GET',
+      url: `${URL}/admin/destinations/img/${id}`,
+    })
+    cb(result.data)
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
 const updDestination = async (id, form) => {
   try {
     await axios({
@@ -68,4 +80,11 @@ const updDestination = async (id, form) => {
   }
 }
 
-export { getDestinationById, getDestination, addDestination, delDestination, updDestination }
+export {
+  getDestinationById,
+  getDestination,
+  addDestination,
+  delDestination,
+  updDestination,
+  getImgDestiId,
+}

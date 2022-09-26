@@ -122,9 +122,7 @@ const Category = () => {
           <CTableBody>
             {categories.map((cat, index) => (
               <CTableRow v-for="item in tableItems" key={cat.id}>
-                <CTableDataCell>
-                  <strong>{cat.id}</strong>
-                </CTableDataCell>
+                <CTableDataCell>{cat.id}</CTableDataCell>
                 <CTableDataCell className="text-center">
                   <strong>{cat.name}</strong>
                 </CTableDataCell>
