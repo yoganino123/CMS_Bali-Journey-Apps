@@ -36,6 +36,7 @@ import {
   CFormTextarea,
   CAlert,
   CCardImage,
+  CCardText,
 } from '@coreui/react'
 import { cilTrash, cilBurn } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -109,7 +110,6 @@ const Destination = () => {
   }
   // console.log(catId)
 
-  let tempImgEdit = []
   const [img, setImg] = useState()
   const [preview, setPreview] = useState('')
 
@@ -121,7 +121,6 @@ const Destination = () => {
   // Modal
   const [visible, setVisible] = useState(false)
   const [visible2, setVisible2] = useState(false)
-  const [visible3, setVisible3] = useState(false)
   const [visible4, setVisible4] = useState(false)
 
   // ! bagian tampil category
@@ -158,6 +157,9 @@ const Destination = () => {
     formDataImg.append('img', imgDestiId)
     addImgDestination(idImg, formDataImg)
   }
+  // console.log(btnAddImg)
+  // Alert ( Image tidak boleh kosong )
+
   // console.log(idImg)
 
   return (
@@ -167,14 +169,14 @@ const Destination = () => {
           <strong>Destination</strong>
         </CCardHeader>
 
-        {/* Button Add Category */}
+        {/* Button Add Destination */}
         <CCardBody>
           <CButton onClick={() => (setVisible(!visible), setMsg(false))}>
             Add New Destination
           </CButton>
 
           {/* MODAL ADD DESTINATION */}
-          <CModal size="xl" visible={visible} onClose={() => setVisible(false)}>
+          <CModal scrollable size="xl" visible={visible} onClose={() => setVisible(false)}>
             <CModalHeader onClose={() => setVisible(false)}>
               <CModalTitle>Add New Destination</CModalTitle>
             </CModalHeader>
@@ -346,22 +348,16 @@ const Destination = () => {
 
                 {/* DESCRIPTION */}
                 <CTableDataCell>
-                  <CButton color="info" shape="rounded-pill" onClick={() => setVisible3(!visible)}>
-                    Description
-                  </CButton>
-
-                  {/* MODAL DESCRIPTION */}
-                  <CModal visible={visible3} onClose={() => setVisible3(false)}>
-                    <CModalHeader onClose={() => setVisible3(false)}>
-                      <CModalTitle>Description </CModalTitle>
-                    </CModalHeader>
-                    <CModalBody>{dest.description}</CModalBody>
-                    <CModalFooter>
-                      <CButton color="secondary" onClick={() => setVisible3(false)}>
-                        Close
-                      </CButton>
-                    </CModalFooter>
-                  </CModal>
+                  {/* DESCRIPTION */}
+                  <CTableDataCell>
+                    <CCard style={{ width: '18rem' }}>
+                      <CCardBody>
+                        <CCardText>
+                          <div>{dest.description}</div>
+                        </CCardText>
+                      </CCardBody>
+                    </CCard>
+                  </CTableDataCell>
                 </CTableDataCell>
 
                 {/* ACTION */}
@@ -376,7 +372,12 @@ const Destination = () => {
                   </CButton>
 
                   {/* MODAL ADD IMAGE */}
-                  <CModal size="xl" visible={visible4} onClose={() => setVisible4(false)}>
+                  <CModal
+                    scrollable
+                    size="xl"
+                    visible={visible4}
+                    onClose={() => setVisible4(false)}
+                  >
                     <CModalHeader onClose={() => setVisible4(false)}>
                       <CModalTitle>Image</CModalTitle>
                     </CModalHeader>
@@ -440,7 +441,12 @@ const Destination = () => {
                   </CButton>
 
                   {/* MODAL EDIT */}
-                  <CModal size="xl" visible={visible2} onClose={() => setVisible2(false)}>
+                  <CModal
+                    scrollable
+                    size="xl"
+                    visible={visible2}
+                    onClose={() => setVisible2(false)}
+                  >
                     <CModalHeader onClose={() => setVisible2(false)}>
                       <CModalTitle>Edit Destination </CModalTitle>
                     </CModalHeader>
