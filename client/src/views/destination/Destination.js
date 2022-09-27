@@ -7,6 +7,8 @@ import {
   delDestination,
   updDestination,
   getImgDestiId,
+  addImgDestination,
+  delImgDestination,
 } from '../../axios/axiosDestination'
 import { getCategories } from '../../axios/axiosCategory'
 
@@ -34,7 +36,6 @@ import {
   CFormTextarea,
   CAlert,
   CCardImage,
-  CModalContent,
 } from '@coreui/react'
 import { cilTrash, cilBurn } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -59,6 +60,7 @@ const Destination = () => {
     map_link: '',
   })
 
+  // Alert ( Image tidak boleh kosong )
   const [msg, setMsg] = useState(false)
 
   const submitAdd = () => {
@@ -72,7 +74,7 @@ const Destination = () => {
       formData.append('open_day', formAdd.open_day)
       formData.append('open_time', formAdd.open_time)
       formData.append('map_link', formAdd.map_link)
-      console.log(formData)
+      // console.log(formData)
       addDestination(formData)
     } else {
       setMsg(true)
@@ -116,6 +118,7 @@ const Destination = () => {
     setPreview(URL.createObjectURL(e.target.files[0]))
   }
 
+  // Modal
   const [visible, setVisible] = useState(false)
   const [visible2, setVisible2] = useState(false)
   const [visible3, setVisible3] = useState(false)
@@ -129,16 +132,33 @@ const Destination = () => {
   }, [])
   // console.log(categories)
 
-  // Image Destination By id
+  // GET Image Destination By id
   const [getDestiImg, setDestiImg] = useState([])
-  const [idImg, setIdImg] = useState([])
 
   const btnImg = (id) => {
     getImgDestiId(id, (res) => {
       setDestiImg(res)
     })
   }
-  console.log(getDestiImg)
+  // console.log(getDestiImg)
+
+  // ADD IMAGE DESTINATION BY ID
+
+  const [idImg, setIdImg] = useState([])
+  const [imgDestiId, setImgDestiId] = useState([])
+  const [previewImgDesti, setPreviewImgDesti] = useState('')
+
+  const loadImageDesti = (e) => {
+    setImgDestiId(e.target.files[0])
+    setPreviewImgDesti(URL.createObjectURL(e.target.files[0]))
+  }
+
+  const btnAddImg = () => {
+    const formDataImg = new FormData()
+    formDataImg.append('img', imgDestiId)
+    addImgDestination(idImg, formDataImg)
+  }
+  // console.log(idImg)
 
   return (
     <CRow>
@@ -152,11 +172,14 @@ const Destination = () => {
           <CButton onClick={() => (setVisible(!visible), setMsg(false))}>
             Add New Destination
           </CButton>
+
+          {/* MODAL ADD DESTINATION */}
           <CModal size="xl" visible={visible} onClose={() => setVisible(false)}>
             <CModalHeader onClose={() => setVisible(false)}>
               <CModalTitle>Add New Destination</CModalTitle>
             </CModalHeader>
             <CModalBody>
+              {/* ALERT */}
               {msg ? (
                 <CAlert color="danger" className="d-flex align-items-center">
                   <CIcon icon={cilBurn} className="flex-shrink-0 me-2" width={24} height={24} />
@@ -288,13 +311,16 @@ const Destination = () => {
             </CTableRow>
           </CTableHead>
 
-          {/* ISI TABLE CATEGORY */}
+          {/* ISI TABLE DESTINATION */}
           <CTableBody>
             {destination.map((dest, index) => (
               <CTableRow v-for="item in tableItems" key={dest.id}>
+                {/* ID */}
                 <CTableDataCell>
                   <strong>{dest.id}</strong>
                 </CTableDataCell>
+
+                {/* NAME */}
                 <CTableDataCell>
                   <strong>{dest.name}</strong>
                   <div className="small text-medium-emphasis">
@@ -305,10 +331,12 @@ const Destination = () => {
                   </div>
                 </CTableDataCell>
 
+                {/* DESTINATION */}
                 <CTableDataCell>
                   <div>{dest.category.name}</div>
                 </CTableDataCell>
 
+                {/* ADDRESS */}
                 <CTableDataCell>
                   <div>{dest.address}</div>
                   <div className="small text-medium-emphasis">
@@ -316,10 +344,13 @@ const Destination = () => {
                   </div>
                 </CTableDataCell>
 
+                {/* DESCRIPTION */}
                 <CTableDataCell>
                   <CButton color="info" shape="rounded-pill" onClick={() => setVisible3(!visible)}>
                     Description
                   </CButton>
+
+                  {/* MODAL DESCRIPTION */}
                   <CModal visible={visible3} onClose={() => setVisible3(false)}>
                     <CModalHeader onClose={() => setVisible3(false)}>
                       <CModalTitle>Description </CModalTitle>
@@ -335,13 +366,16 @@ const Destination = () => {
 
                 {/* ACTION */}
                 <CTableDataCell className="text-center">
+                  {/* ADD IMAGE */}
                   <CButton
                     color="success"
                     shape="rounded-pill"
-                    onClick={() => (btnImg(dest.id), setVisible4(!visible))}
+                    onClick={() => (btnImg(dest.id), setVisible4(!visible), setIdImg(dest.id))}
                   >
                     Add Image
                   </CButton>
+
+                  {/* MODAL ADD IMAGE */}
                   <CModal size="xl" visible={visible4} onClose={() => setVisible4(false)}>
                     <CModalHeader onClose={() => setVisible4(false)}>
                       <CModalTitle>Image</CModalTitle>
@@ -349,19 +383,29 @@ const Destination = () => {
 
                     <CModalBody>
                       <CModalBody>
+                        {/* BUTTON PILIH FILE */}
                         <CFormInput
                           type="file"
                           id="inputGroupFile01"
-                          onChange={(e) => loadImage(e)}
+                          onChange={(e) => loadImageDesti(e)}
                           required
                         />
+                        {previewImgDesti ? (
+                          <div className="col-auto">
+                            <img src={previewImgDesti} height="300px" className="preview-gambar" />
+                          </div>
+                        ) : (
+                          ''
+                        )}
                         <CModalBody>
-                          <CButton href="#" color="primary">
+                          {/* BUTTON ADD IMAGE */}
+                          <CButton color="primary" onClick={() => btnAddImg(dest.id)}>
                             Add Image
                           </CButton>
                         </CModalBody>
                       </CModalBody>
 
+                      {/* CARD IMAGE */}
                       <CRow className="align-items-start">
                         {getDestiImg.map((destImg, index) => (
                           <CCard key={index} style={{ width: '18rem' }}>
@@ -371,7 +415,7 @@ const Destination = () => {
                               src={'http://localhost:3000/' + destImg.img}
                             />
                             <CCardBody>
-                              <CButton href="#" color="danger">
+                              <CButton color="danger" onClick={() => delImgDestination(destImg.id)}>
                                 <CIcon icon={cilTrash}></CIcon>
                               </CButton>
                             </CCardBody>
@@ -385,6 +429,8 @@ const Destination = () => {
                       </CButton>
                     </CModalFooter>
                   </CModal>
+
+                  {/* EDIT BUTTON */}
                   <CButton
                     color="primary"
                     shape="rounded-pill"
@@ -392,12 +438,15 @@ const Destination = () => {
                   >
                     Edit
                   </CButton>
+
+                  {/* MODAL EDIT */}
                   <CModal size="xl" visible={visible2} onClose={() => setVisible2(false)}>
                     <CModalHeader onClose={() => setVisible2(false)}>
                       <CModalTitle>Edit Destination </CModalTitle>
                     </CModalHeader>
                     <CModalBody>
                       <CForm>
+                        {/* NAME */}
                         <CFormLabel htmlFor="exampleFormControlInput1">Name</CFormLabel>
                         <CFormInput
                           type="text"
@@ -406,6 +455,8 @@ const Destination = () => {
                           id="name"
                           onChange={(e) => setFormEdit({ name: e.target.value })}
                         />
+
+                        {/* CATEGORY */}
 
                         <CFormLabel htmlFor="exampleFormControlInput1">Category</CFormLabel>
                         <CFormSelect
@@ -421,6 +472,7 @@ const Destination = () => {
                           ))}
                         </CFormSelect>
 
+                        {/* ADDRESS */}
                         <CFormLabel htmlFor="exampleFormControlInput1">Address</CFormLabel>
                         <CFormInput
                           type="text"
@@ -430,6 +482,7 @@ const Destination = () => {
                           onChange={(e) => setFormEdit({ address: e.target.value })}
                         />
 
+                        {/* OPEN DAY */}
                         <CFormLabel htmlFor="exampleFormControlInput1">Open Day</CFormLabel>
                         <CFormInput
                           type="text"
@@ -439,6 +492,7 @@ const Destination = () => {
                           onChange={(e) => setFormEdit({ open_day: e.target.value })}
                         />
 
+                        {/* OPEN TIME */}
                         <CFormLabel htmlFor="exampleFormControlInput1">Open Time</CFormLabel>
                         <CFormInput
                           type="text"
@@ -448,6 +502,7 @@ const Destination = () => {
                           onChange={(e) => setFormEdit({ open_time: e.target.value })}
                         />
 
+                        {/* MAP LINK */}
                         <CFormLabel htmlFor="exampleFormControlInput1">Map Link</CFormLabel>
                         <CFormInput
                           type="text"
@@ -456,6 +511,8 @@ const Destination = () => {
                           id="map_link"
                           onChange={(e) => setFormEdit({ map_link: e.target.value })}
                         />
+
+                        {/* DESCRIPTION  */}
 
                         <CFormLabel htmlFor="exampleFormControlInput1">Description</CFormLabel>
                         <CFormTextarea
@@ -476,6 +533,7 @@ const Destination = () => {
                       </CButton>
                     </CModalFooter>
                   </CModal>
+
                   {/* Button Delete */}
                   <CButton
                     color="danger"

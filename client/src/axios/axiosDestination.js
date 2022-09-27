@@ -80,6 +80,33 @@ const updDestination = async (id, form) => {
   }
 }
 
+const addImgDestination = async (id, form) => {
+  try {
+    await axios({
+      method: 'POST',
+      url: `${URL}/admin/destinations/img/${id}`,
+      data: form,
+    })
+    Swal.fire('Update', 'Update Success', 'success')
+    window.location.reload(true)
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
+const delImgDestination = async (id) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${URL}/admin/destinations/img/${id}`,
+    })
+    Swal.fire('Delete', 'Delete Success', 'success')
+    window.location.reload(false)
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
 export {
   getDestinationById,
   getDestination,
@@ -87,4 +114,6 @@ export {
   delDestination,
   updDestination,
   getImgDestiId,
+  addImgDestination,
+  delImgDestination,
 }
