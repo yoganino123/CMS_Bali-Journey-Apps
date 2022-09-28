@@ -28,7 +28,7 @@ import {
   CFormInput,
   CForm,
 } from '@coreui/react'
-import { cilTrash } from '@coreui/icons'
+import { cilNotes, cilTrash } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const Category = () => {
@@ -112,7 +112,7 @@ const Category = () => {
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="light">
             <CTableRow>
-              <CTableHeaderCell>Id</CTableHeaderCell>
+              <CTableHeaderCell>No</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Category Name</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Action</CTableHeaderCell>
             </CTableRow>
@@ -122,7 +122,7 @@ const Category = () => {
           <CTableBody>
             {categories.map((cat, index) => (
               <CTableRow v-for="item in tableItems" key={cat.id}>
-                <CTableDataCell>{cat.id}</CTableDataCell>
+                <CTableDataCell>{index + 1}</CTableDataCell>
                 <CTableDataCell className="text-center">
                   <strong>{cat.name}</strong>
                 </CTableDataCell>
@@ -130,12 +130,13 @@ const Category = () => {
                 {/* ACTION */}
                 <CTableDataCell className="text-center">
                   <CButton
-                    color="primary"
+                    color="dark"
                     shape="rounded-pill"
                     onClick={() => (btnEdit(cat.id), setVisible2(!visible))}
                   >
-                    Edit
+                    <CIcon icon={cilNotes}></CIcon>
                   </CButton>
+                  <a> </a>
                   <CModal visible={visible2} onClose={() => setVisible2(false)}>
                     <CModalHeader onClose={() => setVisible2(false)}>
                       <CModalTitle>Edit Category </CModalTitle>

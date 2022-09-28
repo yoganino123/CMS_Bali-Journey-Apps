@@ -25,6 +25,10 @@ import {
   CCardText,
   CFormSelect,
   CCardImage,
+  CImage,
+  CAvatar,
+  CCarousel,
+  CCarouselItem,
 } from '@coreui/react'
 
 import {
@@ -41,7 +45,7 @@ import {
 } from '../../axios/axiosPackageTrip'
 import { getDestination } from '../../axios/axiosDestination'
 
-import { cilTrash, cilBurn } from '@coreui/icons'
+import { cilTrash, cilBurn, cilNotes, cilFlightTakeoff } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const PackageTrip = () => {
@@ -169,7 +173,9 @@ const PackageTrip = () => {
         </CCardHeader>
         <CCardBody>
           {/* BUTTON ADD PACKAGE TRIP */}
-          <CButton onClick={() => (setVisible(!visible), setMsg(false))}>Add Package Trip</CButton>
+          <CButton onClick={() => (setVisible(!visible), setMsg(false))}>
+            Add New Package Trip
+          </CButton>
 
           {/* MODAL ADD PACKAGE TRIP */}
           <CModal scrollable size="xl" visible={visible} onClose={() => setVisible(false)}>
@@ -251,8 +257,10 @@ const PackageTrip = () => {
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="light">
             <CTableRow>
-              <CTableHeaderCell>Id</CTableHeaderCell>
-              <CTableHeaderCell>Name</CTableHeaderCell>
+              <CTableHeaderCell>
+                <CIcon icon={cilFlightTakeoff} />
+              </CTableHeaderCell>
+              <CTableHeaderCell>Package Trip</CTableHeaderCell>
               <CTableHeaderCell>Description</CTableHeaderCell>
               <CTableHeaderCell>Destination</CTableHeaderCell>
               <CTableHeaderCell className="text-center">Action</CTableHeaderCell>
@@ -265,7 +273,19 @@ const PackageTrip = () => {
               <CTableRow v-for="item in tableItems" key={pt.id}>
                 {/* ID */}
                 <CTableDataCell>
-                  <div>{pt.id}</div>
+                  <CAvatar size="xl">
+                    <CCarousel controls>
+                      {pt.images.map((image, index) => (
+                        <CCarouselItem key={image.id}>
+                          <CImage
+                            height={50}
+                            className="d-block w-100"
+                            src={'http://localhost:3000/' + image.img}
+                          />
+                        </CCarouselItem>
+                      ))}
+                    </CCarousel>
+                  </CAvatar>
                 </CTableDataCell>
 
                 {/* NAME */}
@@ -309,6 +329,7 @@ const PackageTrip = () => {
                           <CTableDataCell>
                             <CButton
                               color="danger"
+                              size="sm"
                               variant="outline"
                               shape="rounded-pill"
                               onClick={() => delDestPack(ptDest.id)}
@@ -325,12 +346,14 @@ const PackageTrip = () => {
                 {/* ACTION */}
                 <CTableDataCell className="text-center">
                   {/* BUTTON ADD Destination */}
+
                   <CButton
-                    color="info"
+                    color="primary"
+                    variant="outline"
                     shape="rounded-pill"
                     onClick={() => (setVisible2(!visible), setIdPackTrip(pt.id))}
                   >
-                    Add Destination
+                    + Destination
                   </CButton>
 
                   {/* MODAL ADD DESTINATION */}
@@ -374,12 +397,14 @@ const PackageTrip = () => {
 
                   {/* BUTTON ADD IMAGE */}
                   {/* ADD IMAGE */}
+                  <a> </a>
                   <CButton
-                    color="success"
+                    color="primary"
+                    variant="outline"
                     shape="rounded-pill"
                     onClick={() => (btnImg(pt.id), setVisible3(!visible), setIdImg(pt.id))}
                   >
-                    Add Image
+                    + Image
                   </CButton>
 
                   <CModal
@@ -400,25 +425,27 @@ const PackageTrip = () => {
                           onChange={(e) => loadImagePackageTrip(e)}
                           required
                         />
-                        <CModalBody>
-                          {previewImgPackageTrip ? (
-                            <div className="col-auto">
-                              <img
-                                src={previewImgPackageTrip}
-                                height="300px"
-                                className="preview-gambar"
-                              />
-                            </div>
-                          ) : (
-                            ''
-                          )}
-                        </CModalBody>
+
+                        {previewImgPackageTrip ? (
+                          <div className="col-auto">
+                            <img
+                              src={previewImgPackageTrip}
+                              height="300px"
+                              className="preview-gambar"
+                            />
+                          </div>
+                        ) : (
+                          ''
+                        )}
 
                         <CModalBody>
                           {/* BUTTON ADD IMAGE */}
-                          <CButton color="primary" onClick={() => btnAddImg(pt.id)}>
-                            Add Image
-                          </CButton>
+                          <CModalBody>
+                            <CButton color="primary" onClick={() => btnAddImg(pt.id)}>
+                              Add Image
+                            </CButton>
+                          </CModalBody>
+
                           {/* CARD IMAGE */}
                           <CRow className="align-items-start">
                             {getPackTripImg.map((ptImg, index) => (
@@ -445,75 +472,79 @@ const PackageTrip = () => {
                   </CModal>
 
                   {/* EDIT */}
-                  <CButton
-                    color="primary"
-                    shape="rounded-pill"
-                    onClick={() => (btnEdit(pt.id), setVisible4(!visible))}
-                  >
-                    Edit
-                  </CButton>
+                  <div>
+                    <br></br>
+                    <CButton
+                      color="dark"
+                      shape="rounded-pill"
+                      onClick={() => (btnEdit(pt.id), setVisible4(!visible))}
+                    >
+                      <CIcon icon={cilNotes}></CIcon>
+                    </CButton>
+                    <a> </a>
 
-                  {/* MODAL EDIT */}
-                  <CModal
-                    scrollable
-                    size="xl"
-                    visible={visible4}
-                    onClose={() => setVisible4(false)}
-                  >
-                    <CModalHeader onClose={() => setVisible4(false)}>
-                      <CModalTitle>Edit Package Trip</CModalTitle>
-                    </CModalHeader>
-                    <CModalBody>
-                      <CForm>
-                        {/* NAME */}
-                        <CFormLabel htmlFor="exampleFormControlInput1">Name</CFormLabel>
-                        <CFormInput
-                          type="text"
-                          value={formEdit.name}
-                          className="form-control"
-                          id="name"
-                          onChange={(e) => setFormEdit({ name: e.target.value })}
-                        />
+                    {/* MODAL EDIT */}
+                    <CModal
+                      scrollable
+                      size="xl"
+                      visible={visible4}
+                      onClose={() => setVisible4(false)}
+                    >
+                      <CModalHeader onClose={() => setVisible4(false)}>
+                        <CModalTitle>Edit Package Trip</CModalTitle>
+                      </CModalHeader>
+                      <CModalBody>
+                        <CForm>
+                          {/* NAME */}
+                          <CFormLabel htmlFor="exampleFormControlInput1">Name</CFormLabel>
+                          <CFormInput
+                            type="text"
+                            value={formEdit.name}
+                            className="form-control"
+                            id="name"
+                            onChange={(e) => setFormEdit({ name: e.target.value })}
+                          />
 
-                        {/* PRICE */}
-                        <CFormLabel htmlFor="exampleFormControlInput1">Price</CFormLabel>
-                        <CFormInput
-                          type="text"
-                          value={formEdit.price}
-                          className="form-control"
-                          id="price"
-                          onChange={(e) => setFormEdit({ price: e.target.value })}
-                        />
+                          {/* PRICE */}
+                          <CFormLabel htmlFor="exampleFormControlInput1">Price</CFormLabel>
+                          <CFormInput
+                            type="text"
+                            value={formEdit.price}
+                            className="form-control"
+                            id="price"
+                            onChange={(e) => setFormEdit({ price: e.target.value })}
+                          />
 
-                        {/* DESCRIPTION */}
-                        <CFormLabel htmlFor="exampleFormControlInput1">Description</CFormLabel>
-                        <CFormTextarea
-                          type="text"
-                          value={formEdit.description}
-                          className="form-control"
-                          id="description"
-                          onChange={(e) => setFormEdit({ description: e.target.value })}
-                        />
-                      </CForm>
-                    </CModalBody>
-                    <CModalFooter>
-                      <CButton color="secondary" onClick={() => setVisible4(false)}>
-                        Close
-                      </CButton>
-                      <CButton color="primary" type="submit" onClick={() => submitEdit()}>
-                        Submit
-                      </CButton>
-                    </CModalFooter>
-                  </CModal>
+                          {/* DESCRIPTION */}
+                          <CFormLabel htmlFor="exampleFormControlInput1">Description</CFormLabel>
+                          <CFormTextarea
+                            type="text"
+                            value={formEdit.description}
+                            className="form-control"
+                            id="description"
+                            onChange={(e) => setFormEdit({ description: e.target.value })}
+                          />
+                        </CForm>
+                      </CModalBody>
+                      <CModalFooter>
+                        <CButton color="secondary" onClick={() => setVisible4(false)}>
+                          Close
+                        </CButton>
+                        <CButton color="primary" type="submit" onClick={() => submitEdit()}>
+                          Submit
+                        </CButton>
+                      </CModalFooter>
+                    </CModal>
 
-                  {/* Button Delete */}
-                  <CButton
-                    color="danger"
-                    shape="rounded-pill"
-                    onClick={() => delPackageTrip(pt.id)}
-                  >
-                    <CIcon icon={cilTrash}></CIcon>
-                  </CButton>
+                    {/* Button Delete */}
+                    <CButton
+                      color="danger"
+                      shape="rounded-pill"
+                      onClick={() => delPackageTrip(pt.id)}
+                    >
+                      <CIcon icon={cilTrash}></CIcon>
+                    </CButton>
+                  </div>
                 </CTableDataCell>
               </CTableRow>
             ))}
