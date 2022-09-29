@@ -299,9 +299,6 @@ const PackageTrip = () => {
                   <div className="small text-medium-emphasis">
                     <span>Price : {pt.price}</span>
                   </div>
-                  <div className="small text-medium-emphasis">
-                    <span>Rating : {pt.rating}</span>
-                  </div>
                 </CTableDataCell>
 
                 {/* DESCRIPTION */}

@@ -57,6 +57,7 @@ const ReviewPackageTrip = () => {
         <CCardHeader>
           <strong>Review Package Trip</strong>
         </CCardHeader>
+        <br></br>
 
         {/* ReviewPackageTrip Table */}
         <CTable align="middle" className="mb-0 border" hover responsive>
@@ -72,7 +73,14 @@ const ReviewPackageTrip = () => {
               <CTableRow v-for="item in tableItems" key={revDest.id}>
                 {/* USER*/}
                 <CTableDataCell className="text-center">
-                  <strong>{revDest.user.name}</strong>
+                  <CAvatar
+                    size="xl"
+                    src={'http://localhost:3000/' + revDest.user.images}
+                    status={revDest.user.status === 'active' ? 'success' : 'danger'}
+                  />
+                  <div>
+                    <strong>{revDest.user.name}</strong>
+                  </div>
                   <div className="small text-medium-emphasis">
                     <span>{revDest.user.email}</span>
                   </div>

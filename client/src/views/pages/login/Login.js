@@ -14,7 +14,7 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { cilFlightTakeoff, cilLockLocked, cilUser } from '@coreui/icons'
 
 const Login = () => {
   return (
@@ -27,7 +27,7 @@ const Login = () => {
                 <CCardBody>
                   <CForm>
                     <h1>Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
+                    <p className="text-medium-emphasis">Sign In to admin account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
@@ -64,6 +64,10 @@ const Login = () => {
               <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
+                    <CIcon icon={cilFlightTakeoff} height={70} />
+                  </div>
+                  <div>
+                    <br></br>
                     <h2>Welcome to</h2>
                     <h2>Bali Journey App</h2>
                     <h2>Dashboard</h2>

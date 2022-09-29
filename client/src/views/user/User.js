@@ -143,7 +143,11 @@ const User = () => {
               <CTableRow v-for="item in tableItems" key={usr.id}>
                 {/* NO */}
                 <CTableDataCell>
-                  <CAvatar size="md" src={'http://localhost:3000/' + usr.img} />
+                  <CAvatar
+                    size="md"
+                    src={'http://localhost:3000/' + usr.img}
+                    status={usr.status === 'active' ? 'success' : 'danger'}
+                  />
                 </CTableDataCell>
                 {/* USER */}
                 <CTableDataCell>
