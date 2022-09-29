@@ -11,6 +11,7 @@ import {
   delImgDestination,
 } from '../../axios/axiosDestination'
 import { getCategories } from '../../axios/axiosCategory'
+import { Rating } from 'react-simple-star-rating'
 
 import {
   CRow,
@@ -343,6 +344,9 @@ const Destination = () => {
                 {/* NAME */}
                 <CTableDataCell>
                   <strong>{dest.name}</strong>
+                  <div className="small text-medium-emphasis">
+                    <Rating initialValue={dest.rating} readonly size="20px" />
+                  </div>
                   <div className="small text-medium-emphasis">
                     <span>{dest.open_day}</span>
                   </div>

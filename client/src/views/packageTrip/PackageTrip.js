@@ -47,6 +47,7 @@ import { getDestination } from '../../axios/axiosDestination'
 
 import { cilTrash, cilBurn, cilNotes, cilFlightTakeoff } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+import { Rating } from 'react-simple-star-rating'
 
 const PackageTrip = () => {
   // GET ALL PACKAGE TRIP
@@ -291,6 +292,10 @@ const PackageTrip = () => {
                 {/* NAME */}
                 <CTableDataCell>
                   <strong>{pt.name}</strong>
+                  <div>
+                    <Rating initialValue={pt.rating} readonly size="20px" />
+                  </div>
+
                   <div className="small text-medium-emphasis">
                     <span>Price : {pt.price}</span>
                   </div>
