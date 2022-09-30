@@ -1,5 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -15,15 +16,15 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilFlightTakeoff, cilLockLocked, cilUser } from '@coreui/icons'
+import { login } from 'src/axios/axiosLogin'
 
 const Login = () => {
-  // let cookies = Cookies.get('user')
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
-  // const [form, setForm] = useState({
-  //   email: '',
-  //   pass: '',
-  // })
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  })
   // useEffect(() => {
   //   if (cookies !== undefined) {
   //     let parsing = JSON.parse(cookies)
@@ -34,18 +35,22 @@ const Login = () => {
   //     }
   //   }
   // }, [cookies])
+  console.log(form)
 
-  // const submitHandler = () => {
-  //   loginUser(form, (result) => {
-  //     if (result.level === 'user') {
-  //       navigate('/user')
-  //     } else if (result.level === 'admin') {
-  //       navigate('/admin')
-  //     } else {
-  //       navigate('/login')
-  //     }
-  //   })
-  // }
+  const submitHandler = () => {
+    // loginUser(form, (result) => {
+    //   if (result.level === 'user') {
+    //     navigate('/user')
+    //   } else if (result.level === 'admin') {
+    //     navigate('/admin')
+    //   } else {
+    //     navigate('/login')
+    //   }
+    // })
+    login(form)
+    navigate('/admin/dashboard')
+  }
+
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -62,7 +67,11 @@ const Login = () => {
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       {/* EMAIL */}
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        placeholder="Email"
+                        autoComplete="Email"
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -73,16 +82,16 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        onChange={(e) => setForm({ ...form, password: e.target.value })}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <Link to="/admin/dashboard">
-                          {/* LOGIN BUTTON */}
-                          <CButton color="primary" className="px-4">
-                            Login
-                          </CButton>
-                        </Link>
+                        {/* LOGIN BUTTON */}
+                        <CButton color="primary" className="px-4" onClick={() => submitHandler()}>
+                          {' '}
+                          Login
+                        </CButton>
                       </CCol>
                       {/* <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
