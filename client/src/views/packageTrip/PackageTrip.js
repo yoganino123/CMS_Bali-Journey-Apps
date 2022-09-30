@@ -45,7 +45,7 @@ import {
 } from '../../axios/axiosPackageTrip'
 import { getDestination } from '../../axios/axiosDestination'
 
-import { cilTrash, cilBurn, cilNotes, cilFlightTakeoff } from '@coreui/icons'
+import { cilTrash, cilBurn, cilNotes, cilFlightTakeoff, cilImage, cilCursor } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { Rating } from 'react-simple-star-rating'
 
@@ -263,7 +263,10 @@ const PackageTrip = () => {
               </CTableHeaderCell>
               <CTableHeaderCell>Package Trip</CTableHeaderCell>
               <CTableHeaderCell>Description</CTableHeaderCell>
-              <CTableHeaderCell>Destination</CTableHeaderCell>
+
+              <CTableHeaderCell>
+                <CIcon icon={cilCursor} /> Destination
+              </CTableHeaderCell>
               <CTableHeaderCell className="text-center">Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
@@ -355,7 +358,7 @@ const PackageTrip = () => {
                     shape="rounded-pill"
                     onClick={() => (setVisible2(!visible), setIdPackTrip(pt.id))}
                   >
-                    + Destination
+                    + <CIcon icon={cilCursor} />
                   </CButton>
 
                   {/* MODAL ADD DESTINATION */}
@@ -406,7 +409,7 @@ const PackageTrip = () => {
                     shape="rounded-pill"
                     onClick={() => (btnImg(pt.id), setVisible3(!visible), setIdImg(pt.id))}
                   >
-                    + Image
+                    + <CIcon icon={cilImage}></CIcon>
                   </CButton>
 
                   <CModal

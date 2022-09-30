@@ -43,7 +43,7 @@ import {
   CImage,
   CAvatar,
 } from '@coreui/react'
-import { cilTrash, cilBurn, cilNotes, cilCursor } from '@coreui/icons'
+import { cilTrash, cilBurn, cilNotes, cilCursor, cilImage } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const Destination = () => {
@@ -391,7 +391,7 @@ const Destination = () => {
                     shape="rounded-pill"
                     onClick={() => (btnImg(dest.id), setVisible4(!visible), setIdImg(dest.id))}
                   >
-                    + Image
+                    + <CIcon icon={cilImage} />
                   </CButton>
 
                   {/* MODAL ADD IMAGE */}

@@ -88,7 +88,7 @@ const WidgetsDropdown = () => {
           footer={
             <CLink
               className="font-weight-bold font-xs text-medium-emphasis"
-              href="http://localhost:3001/admin/destination"
+              href="http://localhost:3001/admin/package-trip"
               rel="noopener norefferer"
               target="_blank"
             >

@@ -10,6 +10,8 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
+import CIcon from '@coreui/icons-react'
+import { cilFlightTakeoff } from '@coreui/icons'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -25,8 +27,11 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
+      {/* <CSidebarBrand className="d-none d-md-flex" to="/">
+        <CIcon icon={cilFlightTakeoff} />
+      </CSidebarBrand> */}
       <CSidebarBrand className="d-none d-md-flex" to="/">
-        Bali Journey App
+        <strong> Bali Journey App</strong>
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>

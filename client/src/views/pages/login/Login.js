@@ -17,6 +17,35 @@ import CIcon from '@coreui/icons-react'
 import { cilFlightTakeoff, cilLockLocked, cilUser } from '@coreui/icons'
 
 const Login = () => {
+  // let cookies = Cookies.get('user')
+  // const navigate = useNavigate()
+
+  // const [form, setForm] = useState({
+  //   email: '',
+  //   pass: '',
+  // })
+  // useEffect(() => {
+  //   if (cookies !== undefined) {
+  //     let parsing = JSON.parse(cookies)
+  //     if (parsing.level === 'admin') {
+  //       navigate('/admin')
+  //     } else {
+  //       navigate('/')
+  //     }
+  //   }
+  // }, [cookies])
+
+  // const submitHandler = () => {
+  //   loginUser(form, (result) => {
+  //     if (result.level === 'user') {
+  //       navigate('/user')
+  //     } else if (result.level === 'admin') {
+  //       navigate('/admin')
+  //     } else {
+  //       navigate('/login')
+  //     }
+  //   })
+  // }
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -32,12 +61,14 @@ const Login = () => {
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
+                      {/* EMAIL */}
                       <CFormInput placeholder="Username" autoComplete="username" />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
+                      {/* PASSWORD */}
                       <CFormInput
                         type="password"
                         placeholder="Password"
@@ -47,6 +78,7 @@ const Login = () => {
                     <CRow>
                       <CCol xs={6}>
                         <Link to="/admin/dashboard">
+                          {/* LOGIN BUTTON */}
                           <CButton color="primary" className="px-4">
                             Login
                           </CButton>

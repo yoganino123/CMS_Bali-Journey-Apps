@@ -8,7 +8,7 @@ const AppFooter = () => {
         <span className="ms-1">&copy; 2022 Bali Journey Apps</span>
       </div>
       <div className="ms-auto">
-        <span className="me-1">Powered by: Team 3</span>
+        <span className="me-1">Powered by: Team 3 Flutter Bootcamp #16 Code Academy</span>
       </div>
     </CFooter>
   )
