@@ -5,8 +5,10 @@ const URL = 'http://localhost:3000'
 
 const getReviewDestination = async (callback) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let result = await axios({
       method: 'GET',
+      headers: { access_token },
       url: URL + '/admin/reviews/destinations',
     })
     callback(result.data)
@@ -16,8 +18,10 @@ const getReviewDestination = async (callback) => {
 }
 const updIsVioloation = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'PUT',
+      headers: { access_token },
       url: `${URL}/admin/reviews/violations/${id}`,
       data: form,
     })

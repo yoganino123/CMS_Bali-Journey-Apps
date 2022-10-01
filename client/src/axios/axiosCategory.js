@@ -5,8 +5,10 @@ const URL = 'http://localhost:3000'
 
 const getCategories = async (callback) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let dataCategories = await axios({
       method: 'GET',
+      headers: { access_token },
       url: URL + '/admin/categories',
     })
     callback(dataCategories.data)
@@ -17,8 +19,10 @@ const getCategories = async (callback) => {
 
 const getCategoryById = async (id, cb) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let dataCategory = await axios({
       method: 'GET',
+      headers: { access_token },
       url: `${URL}/admin/categories/${id}`,
     })
     cb(dataCategory.data)
@@ -29,8 +33,10 @@ const getCategoryById = async (id, cb) => {
 
 const addCategory = async (form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'POST',
+      headers: { access_token },
       url: `${URL}/admin/categories`,
       data: form,
     })
@@ -43,8 +49,10 @@ const addCategory = async (form) => {
 
 const delCategory = async (id) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'DELETE',
+      headers: { access_token },
       url: `${URL}/admin/categories/${id}`,
     })
     Swal.fire('Delete', 'Delete Success', 'success')
@@ -56,8 +64,10 @@ const delCategory = async (id) => {
 
 const updCategory = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'PUT',
+      headers: { access_token },
       url: `${URL}/admin/categories/${id}`,
       data: form,
     })

@@ -5,8 +5,10 @@ const URL = 'http://localhost:3000'
 
 const getDestination = async (callback) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let dataDestination = await axios({
       method: 'GET',
+      headers: { access_token },
       url: URL + '/admin/destinations',
     })
     callback(dataDestination.data)
@@ -17,8 +19,10 @@ const getDestination = async (callback) => {
 
 const getDestinationById = async (id, cb) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let dataDestination = await axios({
       method: 'GET',
+      headers: { access_token },
       url: `${URL}/admin/destinations/${id}`,
     })
     cb(dataDestination.data)
@@ -29,8 +33,10 @@ const getDestinationById = async (id, cb) => {
 
 const addDestination = async (form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'POST',
+      headers: { access_token },
       url: `${URL}/admin/destinations`,
       data: form,
     })
@@ -43,8 +49,10 @@ const addDestination = async (form) => {
 
 const delDestination = async (id) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'DELETE',
+      headers: { access_token },
       url: `${URL}/admin/destinations/${id}`,
     })
     Swal.fire('Delete', 'Delete Success', 'success')
@@ -56,8 +64,10 @@ const delDestination = async (id) => {
 
 const getImgDestiId = async (id, cb) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let result = await axios({
       method: 'GET',
+      headers: { access_token },
       url: `${URL}/admin/destinations/img/${id}`,
     })
     cb(result.data)
@@ -68,8 +78,10 @@ const getImgDestiId = async (id, cb) => {
 
 const updDestination = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'PUT',
+      headers: { access_token },
       url: `${URL}/admin/destinations/${id}`,
       data: form,
     })
@@ -82,8 +94,10 @@ const updDestination = async (id, form) => {
 
 const addImgDestination = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'POST',
+      headers: { access_token },
       url: `${URL}/admin/destinations/img/${id}`,
       data: form,
     })
@@ -96,8 +110,10 @@ const addImgDestination = async (id, form) => {
 
 const delImgDestination = async (id) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'DELETE',
+      headers: { access_token },
       url: `${URL}/admin/destinations/img/${id}`,
     })
     Swal.fire('Delete', 'Delete Success', 'success')

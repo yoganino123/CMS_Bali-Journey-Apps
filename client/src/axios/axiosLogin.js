@@ -11,29 +11,33 @@ const login = async (form, cb) => {
       url: URL + '/home/login',
       data: form,
     })
-    console.log(result.data)
-    const access_token = result.data.accessToken
-    localStorage.setItem('access_token', access_token)
-    // const data = JSON.stringify(result.data.valUser)
-    // Swal.fire({
-    //   title: 'Login',
-    //   text: 'Login Success',
-    //   icon: 'success',
-    //   confirmButtonText: 'Oke',
-    // }).then(async (result) => {
-    //   if (result.isConfirmed) {
-    //     Cookies.set('user', data)
-    //     window.location.reload(true)
-    //   }
-    // })
-    // cb(result.data.valUser)
+    if (result.data.level === 'admin') {
+      const access_token = result.data.accessToken
+      localStorage.setItem('access_token', access_token)
+      localStorage.setItem('level', result.data.level)
+      Swal.fire({
+        title: 'Login',
+        text: 'Login Success',
+        icon: 'success',
+        confirmButtonText: 'Oke',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          cb(result.data)
+        }
+      })
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: `Forbidden`,
+        text: `Error, please login using an admin account!`,
+      })
+    }
   } catch (error) {
-    // Swal.fire({
-    //   icon: 'error',
-    //   title: `Error Status ${error.response.status}`,
-    //   text: `Email and Password didn't match`,
-    // })
-    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: `Error Status ${error.response.status}`,
+      text: `Email and Password didn't match`,
+    })
   }
 }
 

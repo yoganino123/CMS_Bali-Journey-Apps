@@ -5,8 +5,10 @@ const URL = 'http://localhost:3000'
 
 const getUser = async (callback) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let result = await axios({
       method: 'GET',
+      headers: { access_token },
       url: URL + '/admin/users',
     })
     callback(result.data)
@@ -17,8 +19,10 @@ const getUser = async (callback) => {
 
 const getUserById = async (id, cb) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let result = await axios({
       method: 'GET',
+      headers: { access_token },
       url: `${URL}/admin/users/${id}`,
     })
     cb(result.data)
@@ -29,8 +33,10 @@ const getUserById = async (id, cb) => {
 
 const updUser = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'PUT',
+      headers: { access_token },
       url: `${URL}/admin/users/${id}`,
       data: form,
     })
@@ -43,8 +49,10 @@ const updUser = async (id, form) => {
 
 const addUser = async (form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'POST',
+      headers: { access_token },
       url: `${URL}/admin/users`,
       data: form,
     })

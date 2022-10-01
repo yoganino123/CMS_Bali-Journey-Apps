@@ -5,8 +5,10 @@ const URL = 'http://localhost:3000'
 
 const getPackageTrip = async (callback) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let dataDestination = await axios({
       method: 'GET',
+      headers: { access_token },
       url: URL + '/admin/packageTrips',
     })
     callback(dataDestination.data)
@@ -17,8 +19,10 @@ const getPackageTrip = async (callback) => {
 
 const addPackageTrip = async (form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'POST',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips`,
       data: form,
     })
@@ -31,8 +35,10 @@ const addPackageTrip = async (form) => {
 
 const addPackDestination = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'POST',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/${id}`,
       data: form,
     })
@@ -45,8 +51,10 @@ const addPackDestination = async (id, form) => {
 
 const delDestPack = async (id) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'DELETE',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/dest/${id}`,
     })
     Swal.fire('Delete', 'Delete Success', 'success')
@@ -58,8 +66,10 @@ const delDestPack = async (id) => {
 
 const addImgPackageTrip = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'POST',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/img/${id}`,
       data: form,
     })
@@ -71,8 +81,10 @@ const addImgPackageTrip = async (id, form) => {
 }
 const getImgPackageTripId = async (id, cb) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let result = await axios({
       method: 'GET',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/img/${id}`,
     })
     cb(result.data)
@@ -83,8 +95,10 @@ const getImgPackageTripId = async (id, cb) => {
 
 const delImgPackageTrip = async (id) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'DELETE',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/img/${id}`,
     })
     Swal.fire('Delete', 'Delete Success', 'success')
@@ -96,8 +110,10 @@ const delImgPackageTrip = async (id) => {
 
 const getPackageTripById = async (id, cb) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     let dataDestination = await axios({
       method: 'GET',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/${id}`,
     })
     cb(dataDestination.data)
@@ -108,8 +124,10 @@ const getPackageTripById = async (id, cb) => {
 
 const updPackageTrip = async (id, form) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'PUT',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/${id}`,
       data: form,
     })
@@ -122,8 +140,10 @@ const updPackageTrip = async (id, form) => {
 
 const delPackageTrip = async (id) => {
   try {
+    const access_token = localStorage.getItem('access_token')
     await axios({
       method: 'DELETE',
+      headers: { access_token },
       url: `${URL}/admin/packageTrips/${id}`,
     })
     Swal.fire('Delete', 'Delete Success', 'success')

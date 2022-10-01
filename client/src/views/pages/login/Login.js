@@ -47,8 +47,9 @@ const Login = () => {
     //     navigate('/login')
     //   }
     // })
-    login(form)
-    navigate('/admin/dashboard')
+    login(form, () => {
+      navigate('/admin/dashboard')
+    })
   }
 
   return (
