@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
 import { useSelector, useDispatch } from 'react-redux'
+import { getProfile } from '../axios/axiosProfile'
+
 import {
   CContainer,
   CHeader,
@@ -20,6 +23,13 @@ const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
+  // ! bagian tampil PROFILE
+  // tampilkan PROFILE
+  const [profile, setProfile] = useState([])
+  useEffect(() => {
+    getProfile((res) => setProfile(res))
+  }, [])
+
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
@@ -38,6 +48,9 @@ const AppHeader = () => {
             Bali Journey App Dashboard
             {/* </CNavLink> */}
           </CNavItem>
+        </CHeaderNav>
+        <CHeaderNav>
+          <strong>{profile.name}</strong>
         </CHeaderNav>
 
         <CHeaderNav className="ms-3">

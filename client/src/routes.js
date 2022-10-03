@@ -74,7 +74,7 @@ const routes = [
   { path: '/review/destination', name: 'ReviewDestination', element: ReviewDestination },
   { path: '/review/package-trip', name: 'ReviewPackageTrip', element: ReviewPackageTrip },
   { path: '/user', name: 'User', element: User },
-  // { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/profile', name: 'Profile', element: Profile },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },

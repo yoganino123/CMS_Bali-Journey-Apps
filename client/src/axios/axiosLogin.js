@@ -11,6 +11,7 @@ const login = async (form, cb) => {
       url: URL + '/home/login',
       data: form,
     })
+    // console.log(result.data)
     if (result.data.level === 'admin') {
       const access_token = result.data.accessToken
       localStorage.setItem('access_token', access_token)

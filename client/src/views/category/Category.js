@@ -64,8 +64,8 @@ const Category = () => {
     // console.log(formEdit)
     updCategory(catId, formEdit)
   }
-  console.log(formAdd)
-  console.log(formEdit)
+  // console.log(formAdd)
+  // console.log(formEdit)
   // console.log(catId)
 
   const [visible, setVisible] = useState(false)

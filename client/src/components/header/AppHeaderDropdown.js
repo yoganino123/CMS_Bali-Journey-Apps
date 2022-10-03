@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
 import {
   CAvatar,
   CDropdown,
@@ -11,19 +12,26 @@ import {
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+import { getProfile } from '../../axios/axiosProfile'
+
 import avatar8 from './../../assets/images/avatars/8.jpg'
 
 const AppHeaderDropdown = () => {
-  // const localStorage = localStorage.getItem('bebas')
-  // console.log(localStorage)
-
+  // LOGOUT
   const logoutHandler = () => {
     localStorage.clear()
   }
+
+  // ! bagian tampil PROFILE
+  // tampilkan PROFILE
+  const [profile, setProfile] = useState([])
+  useEffect(() => {
+    getProfile((res) => setProfile(res))
+  }, [])
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <CAvatar src={avatar8} size="md" />
+        <CAvatar src={'http://localhost:3000/' + profile.img} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
