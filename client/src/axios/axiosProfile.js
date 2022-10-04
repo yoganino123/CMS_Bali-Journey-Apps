@@ -33,4 +33,20 @@ const updProfile = async (form) => {
   }
 }
 
-export { getProfile, updProfile }
+const updPhotoProfile = async (form) => {
+  try {
+    const access_token = localStorage.getItem('access_token')
+    await axios({
+      method: 'PUT',
+      headers: { access_token },
+      url: `${URL}/admin/profiles/img`,
+      data: form,
+    })
+    Swal.fire('Update', 'Update Success', 'success')
+    window.location.reload(true)
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
+export { getProfile, updProfile, updPhotoProfile }

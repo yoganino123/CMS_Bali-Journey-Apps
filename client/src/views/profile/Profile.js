@@ -24,7 +24,7 @@ import {
   CModalFooter,
 } from '@coreui/react'
 
-import { getProfile, updProfile } from '../../axios/axiosProfile'
+import { getProfile, updProfile, updPhotoProfile } from '../../axios/axiosProfile'
 
 const Profile = () => {
   // ! bagian tampil PROFILE
@@ -65,7 +65,26 @@ const Profile = () => {
   }
   // console.log(formEdit)
 
+  //tambah category
+  const [formAdd, setFormAdd] = useState({
+    name: '',
+  })
+
   const [visible, setVisible] = useState(false)
+
+  const [previewImgDesti, setPreviewImgDesti] = useState('')
+  const [imgDestiId, setImgDestiId] = useState([])
+
+  const loadImageDesti = (e) => {
+    setImgDestiId(e.target.files[0])
+    setPreviewImgDesti(URL.createObjectURL(e.target.files[0]))
+  }
+
+  const btnAddImg = () => {
+    const formDataImg = new FormData()
+    formDataImg.append('img', imgDestiId)
+    updPhotoProfile(formDataImg)
+  }
 
   return (
     <CRow>
@@ -93,10 +112,49 @@ const Profile = () => {
           {/* MODAL EDIT */}
           <CModal scrollable size="xl" visible={visible} onClose={() => setVisible(false)}>
             <CModalHeader onClose={() => setVisible(false)}>
-              <CModalTitle>Edit Destination </CModalTitle>
+              <CModalTitle>Edit Profile </CModalTitle>
             </CModalHeader>
             <CModalBody>
               <CForm>
+                <CCard>
+                  {/* <CCardBody>
+                    <div className="clearfix">
+                      <CImage
+                        align="center"
+                        rounded
+                        src={'http://localhost:3000/' + profile.img}
+                        width="200"
+                        height="200"
+                      />
+                    </div>
+                  </CCardBody> */}
+                  <CCardBody className="text-center">
+                    {previewImgDesti ? (
+                      <div className="col-auto">
+                        <img src={previewImgDesti} height="200px" className="preview-gambar" />
+                      </div>
+                    ) : (
+                      <div className="col-auto">
+                        <img
+                          src={'http://localhost:3000/' + profile.img}
+                          height="200px"
+                          className="preview-gambar"
+                        />
+                      </div>
+                    )}
+                    <CCardBody>
+                      <div className="col-auto ">
+                        <CFormInput
+                          type="file"
+                          id="inputGroupFile01"
+                          onChange={(e) => loadImageDesti(e)}
+                          required
+                        />
+                      </div>
+                    </CCardBody>
+                  </CCardBody>
+                </CCard>
+
                 {/* NAME */}
                 <CFormLabel htmlFor="exampleFormControlInput1">Name</CFormLabel>
                 <CFormInput
@@ -132,7 +190,7 @@ const Profile = () => {
               <CButton color="secondary" onClick={() => setVisible(false)}>
                 Close
               </CButton>
-              <CButton color="primary" type="submit" onClick={() => submitEdit()}>
+              <CButton color="primary" type="submit" onClick={() => (submitEdit(), btnAddImg())}>
                 Submit
               </CButton>
             </CModalFooter>
