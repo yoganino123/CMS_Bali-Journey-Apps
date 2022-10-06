@@ -362,10 +362,18 @@ const Destination = () => {
 
                 {/* ADDRESS */}
                 <CTableDataCell>
-                  <div>{dest.address}</div>
-                  <div className="small text-medium-emphasis">
-                    <a href={dest.map_link}>{dest.map_link}</a>
-                  </div>
+                  <CTableDataCell>
+                    <CCard style={{ width: '15rem' }}>
+                      <CCardBody>
+                        <CCardText>
+                          <div>{dest.address}</div>
+                          <div className="small text-medium-emphasis">
+                            <a href={dest.map_link}>{dest.map_link}</a>
+                          </div>
+                        </CCardText>
+                      </CCardBody>
+                    </CCard>
+                  </CTableDataCell>
                 </CTableDataCell>
 
                 {/* DESCRIPTION */}

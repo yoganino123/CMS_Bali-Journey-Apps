@@ -16,6 +16,10 @@ const User = React.lazy(() => import('./views/user/User'))
 // Profile
 const Profile = React.lazy(() => import('./views/profile/Profile'))
 
+// Transaction
+const Order = React.lazy(() => import('./views/order/Order'))
+const Transaction = React.lazy(() => import('./views/transaction/Transaction'))
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -75,6 +79,8 @@ const routes = [
   { path: '/review/package-trip', name: 'ReviewPackageTrip', element: ReviewPackageTrip },
   { path: '/user', name: 'User', element: User },
   { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/transaction', name: 'Transaction', element: Transaction },
+  { path: '/order', name: 'Order', element: Order },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
