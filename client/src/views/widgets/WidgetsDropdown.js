@@ -184,51 +184,59 @@ const WidgetsDropdown = () => {
           />
         </CCol>
       </CRow>
-      {/* Transaction */}
-      <CRow>
-        <CCol sm={6} lg={3}>
-          <CWidgetStatsF
-            className="mb-3"
-            color="danger"
-            footer={
-              <CLink
-                className="font-weight-bold font-xs text-medium-emphasis"
-                href="http://localhost:3001/admin/transaction"
-                rel="noopener norefferer"
-                target="_blank"
-              >
-                View more
-                <CIcon icon={cilArrowRight} className="float-end" width={16} />
-              </CLink>
-            }
-            icon={<CIcon icon={cilCart} height={24} />}
-            title="Transaction"
-            value={reportTransaction.length}
-          />
-        </CCol>
-      </CRow>
+
       {/* ORDER */}
       <CRow>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Order In</strong>
+            <strong>Transaction</strong>
           </CCardHeader>
           <br></br>
-          {/* Order In*/}
           <CRow className="mb-4">
+            {/* Transaction */}
+
             <CCol sm={6} lg={3}>
+              <CWidgetStatsF
+                className="mb-3"
+                color="danger"
+                footer={
+                  <CLink
+                    className="font-weight-bold font-xs text-medium-emphasis"
+                    href="http://localhost:3001/admin/transaction"
+                    rel="noopener norefferer"
+                    target="_blank"
+                  >
+                    View more
+                    <CIcon icon={cilArrowRight} className="float-end" width={16} />
+                  </CLink>
+                }
+                icon={<CIcon icon={cilCart} height={24} />}
+                title="Transaction"
+                value={reportTransaction.length}
+              />
+            </CCol>
+
+            {/* Order In*/}
+            <CCol sm={6} lg={4}>
               <CWidgetStatsF
                 className="mb-3"
                 color="success"
                 icon={<CIcon icon={cilDollar} height={24} />}
-                title={`Total Order In = ${reportOrder.length}`}
-                value={new Intl.NumberFormat('id-ID', {
-                  style: 'currency',
-                  currency: 'IDR',
-                }).format(orderIn)}
+                value={
+                  <h4>
+                    <strong>
+                      {new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR',
+                      }).format(orderIn)}
+                    </strong>
+                  </h4>
+                }
+                footer={`Total Order In = ${reportOrder.length}`}
               />
             </CCol>
           </CRow>
+
           {/* report Table */}
           <CTable align="middle" className="mb-0 border" hover responsive>
             <CTableHead color="light">

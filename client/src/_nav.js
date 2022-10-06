@@ -88,13 +88,13 @@ const _nav = [
     component: CNavItem,
     name: 'Order In',
     to: '/admin/order',
-    icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilDollar} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Transaction',
     to: '/admin/transaction',
-    icon: <CIcon icon={cilDollar} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
   },
 
   // {
