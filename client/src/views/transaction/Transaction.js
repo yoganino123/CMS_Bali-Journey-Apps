@@ -158,6 +158,7 @@ const Transaction = () => {
                   ) : (
                     <CBadge color="secondary">PENDING</CBadge>
                   )}
+                  <div>{rpt.trc_time}</div>
                 </CTableDataCell>
               </CTableRow>
             ))}

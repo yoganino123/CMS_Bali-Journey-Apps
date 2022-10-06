@@ -349,6 +349,7 @@ const WidgetsDropdown = () => {
                   {/* Status */}
                   <CTableDataCell className="text-center">
                     <CBadge color="success">{rpt.status === 'paid' ? 'PAID' : ' '}</CBadge>
+                    <div>{rpt.transaction_time}</div>
                   </CTableDataCell>
                 </CTableRow>
               ))}
