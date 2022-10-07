@@ -29,6 +29,8 @@ import {
   CAvatar,
   CCarousel,
   CCarouselItem,
+  CTooltip,
+  CBadge,
 } from '@coreui/react'
 
 import {
@@ -262,9 +264,9 @@ const PackageTrip = () => {
                 <CIcon icon={cilFlightTakeoff} />
               </CTableHeaderCell>
               <CTableHeaderCell>Package Trip</CTableHeaderCell>
-              <CTableHeaderCell>Description</CTableHeaderCell>
+              {/* <CTableHeaderCell>Description</CTableHeaderCell> */}
 
-              <CTableHeaderCell>
+              <CTableHeaderCell className="text-center">
                 <CIcon icon={cilCursor} /> Destination
               </CTableHeaderCell>
               <CTableHeaderCell className="text-center">Action</CTableHeaderCell>
@@ -302,10 +304,15 @@ const PackageTrip = () => {
                   <div className="small text-medium-emphasis">
                     <span>Price : {pt.price}</span>
                   </div>
+                  <CTooltip content={pt.description} placement="right">
+                    <CBadge color="dark" shape="rounded-pill">
+                      Description
+                    </CBadge>
+                  </CTooltip>
                 </CTableDataCell>
 
                 {/* DESCRIPTION */}
-                <CTableDataCell className="text-center">
+                {/* <CTableDataCell className="text-center">
                   <CCard style={{ width: '18rem' }}>
                     <CCardBody>
                       <CCardText>
@@ -313,7 +320,7 @@ const PackageTrip = () => {
                       </CCardText>
                     </CCardBody>
                   </CCard>
-                </CTableDataCell>
+                </CTableDataCell> */}
 
                 {/* DESTINATION */}
                 <CTableDataCell>

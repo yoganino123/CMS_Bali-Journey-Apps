@@ -42,6 +42,9 @@ import {
   CCarouselItem,
   CImage,
   CAvatar,
+  CTooltip,
+  CBreadcrumb,
+  CBadge,
 } from '@coreui/react'
 import { cilTrash, cilBurn, cilNotes, cilCursor, cilImage } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -309,13 +312,13 @@ const Destination = () => {
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="light">
             <CTableRow>
-              <CTableHeaderCell>
+              <CTableHeaderCell className="text-center">
                 <CIcon icon={cilCursor} />
               </CTableHeaderCell>
-              <CTableHeaderCell>Destination</CTableHeaderCell>
+              <CTableHeaderCell>Details</CTableHeaderCell>
               <CTableHeaderCell>Category</CTableHeaderCell>
-              <CTableHeaderCell>Address</CTableHeaderCell>
-              <CTableHeaderCell>Description</CTableHeaderCell>
+              {/* <CTableHeaderCell>Address</CTableHeaderCell> */}
+              {/* <CTableHeaderCell>Description</CTableHeaderCell> */}
               <CTableHeaderCell className="text-center">Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
@@ -325,8 +328,8 @@ const Destination = () => {
             {destination.map((dest, index) => (
               <CTableRow v-for="item in tableItems" key={dest.id}>
                 {/* ID */}
-                <CTableDataCell>
-                  <CAvatar size="xl">
+                <CTableDataCell className="text-center">
+                  <CAvatar size="xl" shape="rounded-0">
                     <CCarousel controls>
                       {dest.images.map((image, index) => (
                         <CCarouselItem key={image.id}>
@@ -339,29 +342,37 @@ const Destination = () => {
                       ))}
                     </CCarousel>
                   </CAvatar>
+                  <div>
+                    <strong>{dest.name}</strong>
+                    <div className="small text-medium-emphasis">
+                      <Rating initialValue={dest.rating} readonly size="20px" />
+                    </div>
+                    <div className="small text-medium-emphasis">
+                      <span>{dest.open_day}</span>
+                    </div>
+                    <div className="small text-medium-emphasis">
+                      <span>{dest.open_time}</span>
+                    </div>
+                  </div>
                 </CTableDataCell>
-
                 {/* NAME */}
                 <CTableDataCell>
-                  <strong>{dest.name}</strong>
+                  <div>{dest.address}</div>
                   <div className="small text-medium-emphasis">
-                    <Rating initialValue={dest.rating} readonly size="20px" />
+                    <a href={dest.map_link}>{dest.map_link}</a>
                   </div>
-                  <div className="small text-medium-emphasis">
-                    <span>{dest.open_day}</span>
-                  </div>
-                  <div className="small text-medium-emphasis">
-                    <span>{dest.open_time}</span>
-                  </div>
+                  <CTooltip content={dest.description} placement="right">
+                    <CBadge color="dark" shape="rounded-pill">
+                      Description
+                    </CBadge>
+                  </CTooltip>
                 </CTableDataCell>
-
                 {/* DESTINATION */}
                 <CTableDataCell>
                   <div>{dest.category.name}</div>
                 </CTableDataCell>
-
                 {/* ADDRESS */}
-                <CTableDataCell>
+                {/* <CTableDataCell>
                   <CTableDataCell>
                     <CCard style={{ width: '15rem' }}>
                       <CCardBody>
@@ -374,25 +385,12 @@ const Destination = () => {
                       </CCardBody>
                     </CCard>
                   </CTableDataCell>
-                </CTableDataCell>
-
-                {/* DESCRIPTION */}
-                <CTableDataCell>
-                  {/* DESCRIPTION */}
-                  <CTableDataCell>
-                    <CCard style={{ width: '18rem' }}>
-                      <CCardBody>
-                        <CCardText>
-                          <div>{dest.description}</div>
-                        </CCardText>
-                      </CCardBody>
-                    </CCard>
-                  </CTableDataCell>
-                </CTableDataCell>
+                </CTableDataCell> */}
 
                 {/* ACTION */}
                 <CTableDataCell className="text-center">
                   {/* ADD IMAGE */}
+
                   <CButton
                     color="primary"
                     variant="outline"
