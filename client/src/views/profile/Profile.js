@@ -104,9 +104,15 @@ const Profile = () => {
           </div>
         </CCardBody>
         <CCardBody className="text-center">
-          <CCardTitle className="text-center">{profile.name}</CCardTitle>
-          <CCardText className="text-center">{profile.email}</CCardText>
-          <CCardText className="text-center">Level : {profile.level}</CCardText>
+          <CCardTitle className="text-center">
+            {profile.name ? profile.name : 'Load Data...'}
+          </CCardTitle>
+          <CCardText className="text-center">
+            {profile.email ? profile.email : 'Load Data...'}
+          </CCardText>
+          <CCardText className="text-center">
+            Level : {profile.level ? profile.level : 'Load Data...'}
+          </CCardText>
           <CButton onClick={() => setVisible(!visible)}>Edit Profile</CButton>
 
           {/* MODAL EDIT */}

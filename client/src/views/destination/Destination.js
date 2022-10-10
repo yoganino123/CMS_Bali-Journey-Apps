@@ -45,6 +45,7 @@ import {
   CTooltip,
   CBreadcrumb,
   CBadge,
+  CSpinner,
 } from '@coreui/react'
 import { cilTrash, cilBurn, cilNotes, cilCursor, cilImage } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -312,6 +313,7 @@ const Destination = () => {
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="light">
             <CTableRow>
+              <CTableHeaderCell>No</CTableHeaderCell>
               <CTableHeaderCell className="text-center">
                 <CIcon icon={cilCursor} />
               </CTableHeaderCell>
@@ -325,54 +327,56 @@ const Destination = () => {
 
           {/* ISI TABLE DESTINATION */}
           <CTableBody>
-            {destination.map((dest, index) => (
-              <CTableRow v-for="item in tableItems" key={dest.id}>
-                {/* ID */}
-                <CTableDataCell className="text-center">
-                  <CAvatar size="xl" shape="rounded-0">
-                    <CCarousel controls>
-                      {dest.images.map((image, index) => (
-                        <CCarouselItem key={image.id}>
-                          <CImage
-                            height={50}
-                            className="d-block w-100"
-                            src={'http://localhost:3000/' + image.img}
-                          />
-                        </CCarouselItem>
-                      ))}
-                    </CCarousel>
-                  </CAvatar>
-                  <div>
-                    <strong>{dest.name}</strong>
-                    <div className="small text-medium-emphasis">
-                      <Rating initialValue={dest.rating} readonly size="20px" />
+            {destination.length !== 0 ? (
+              destination.map((dest, index) => (
+                <CTableRow v-for="item in tableItems" key={dest.id}>
+                  <CTableDataCell>{index + 1}</CTableDataCell>
+                  {/* ID */}
+                  <CTableDataCell className="text-center">
+                    <CAvatar size="xl" shape="rounded-0">
+                      <CCarousel controls>
+                        {dest.images.map((image, index) => (
+                          <CCarouselItem key={image.id}>
+                            <CImage
+                              height={50}
+                              className="d-block w-100"
+                              src={'http://localhost:3000/' + image.img}
+                            />
+                          </CCarouselItem>
+                        ))}
+                      </CCarousel>
+                    </CAvatar>
+                    <div>
+                      <strong>{dest.name}</strong>
+                      <div className="small text-medium-emphasis">
+                        <Rating initialValue={dest.rating} readonly size="20px" />
+                      </div>
+                      <div className="small text-medium-emphasis">
+                        <span>{dest.open_day}</span>
+                      </div>
+                      <div className="small text-medium-emphasis">
+                        <span>{dest.open_time}</span>
+                      </div>
                     </div>
+                  </CTableDataCell>
+                  {/* NAME */}
+                  <CTableDataCell>
+                    <div>{dest.address}</div>
                     <div className="small text-medium-emphasis">
-                      <span>{dest.open_day}</span>
+                      <a href={dest.map_link}>{dest.map_link}</a>
                     </div>
-                    <div className="small text-medium-emphasis">
-                      <span>{dest.open_time}</span>
-                    </div>
-                  </div>
-                </CTableDataCell>
-                {/* NAME */}
-                <CTableDataCell>
-                  <div>{dest.address}</div>
-                  <div className="small text-medium-emphasis">
-                    <a href={dest.map_link}>{dest.map_link}</a>
-                  </div>
-                  <CTooltip content={dest.description} placement="right">
-                    <CBadge color="dark" shape="rounded-pill">
-                      Description
-                    </CBadge>
-                  </CTooltip>
-                </CTableDataCell>
-                {/* DESTINATION */}
-                <CTableDataCell>
-                  <div>{dest.category.name}</div>
-                </CTableDataCell>
-                {/* ADDRESS */}
-                {/* <CTableDataCell>
+                    <CTooltip content={dest.description} placement="right">
+                      <CBadge color="dark" shape="rounded-pill">
+                        Description
+                      </CBadge>
+                    </CTooltip>
+                  </CTableDataCell>
+                  {/* DESTINATION */}
+                  <CTableDataCell>
+                    <div>{dest.category.name}</div>
+                  </CTableDataCell>
+                  {/* ADDRESS */}
+                  {/* <CTableDataCell>
                   <CTableDataCell>
                     <CCard style={{ width: '15rem' }}>
                       <CCardBody>
@@ -387,204 +391,218 @@ const Destination = () => {
                   </CTableDataCell>
                 </CTableDataCell> */}
 
-                {/* ACTION */}
-                <CTableDataCell className="text-center">
-                  {/* ADD IMAGE */}
-
-                  <CButton
-                    color="primary"
-                    variant="outline"
-                    shape="rounded-pill"
-                    onClick={() => (btnImg(dest.id), setVisible4(!visible), setIdImg(dest.id))}
-                  >
-                    + <CIcon icon={cilImage} />
-                  </CButton>
-
-                  {/* MODAL ADD IMAGE */}
-                  <CModal
-                    scrollable
-                    size="xl"
-                    visible={visible4}
-                    onClose={() => setVisible4(false)}
-                  >
-                    <CModalHeader onClose={() => setVisible4(false)}>
-                      <CModalTitle>Image</CModalTitle>
-                    </CModalHeader>
-
-                    <CModalBody>
-                      <CModalBody>
-                        {/* BUTTON PILIH FILE */}
-                        <CFormInput
-                          type="file"
-                          id="inputGroupFile01"
-                          onChange={(e) => loadImageDesti(e)}
-                          required
-                        />
-                        {previewImgDesti ? (
-                          <div className="col-auto">
-                            <img src={previewImgDesti} height="300px" className="preview-gambar" />
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        <CModalBody>
-                          {/* BUTTON ADD IMAGE */}
-                          <CButton color="primary" onClick={() => btnAddImg(dest.id)}>
-                            Add Image
-                          </CButton>
-                        </CModalBody>
-                      </CModalBody>
-
-                      {/* CARD IMAGE */}
-                      <CRow className="align-items-start">
-                        {getDestiImg.map((destImg, index) => (
-                          <CCard key={index} style={{ width: '18rem' }}>
-                            <CCardImage
-                              orientation="top"
-                              height={200}
-                              src={'http://localhost:3000/' + destImg.img}
-                            />
-                            <CCardBody>
-                              <CButton color="danger" onClick={() => delImgDestination(destImg.id)}>
-                                <CIcon icon={cilTrash}></CIcon>
-                              </CButton>
-                            </CCardBody>
-                          </CCard>
-                        ))}
-                      </CRow>
-                    </CModalBody>
-                    <CModalFooter>
-                      <CButton color="secondary" onClick={() => setVisible4(false)}>
-                        Close
-                      </CButton>
-                    </CModalFooter>
-                  </CModal>
-
-                  {/* EDIT BUTTON */}
-                  <div>
-                    <br></br>
+                  {/* ACTION */}
+                  <CTableDataCell className="text-center">
+                    {/* ADD IMAGE */}
 
                     <CButton
-                      color="dark"
+                      color="primary"
+                      variant="outline"
                       shape="rounded-pill"
-                      onClick={() => (btnEdit(dest.id), setVisible2(!visible))}
+                      onClick={() => (btnImg(dest.id), setVisible4(!visible), setIdImg(dest.id))}
                     >
-                      <CIcon icon={cilNotes}></CIcon>
+                      + <CIcon icon={cilImage} />
                     </CButton>
-                    <a> </a>
 
-                    {/* MODAL EDIT */}
+                    {/* MODAL ADD IMAGE */}
                     <CModal
                       scrollable
                       size="xl"
-                      visible={visible2}
-                      onClose={() => setVisible2(false)}
+                      visible={visible4}
+                      onClose={() => setVisible4(false)}
                     >
-                      <CModalHeader onClose={() => setVisible2(false)}>
-                        <CModalTitle>Edit Destination </CModalTitle>
+                      <CModalHeader onClose={() => setVisible4(false)}>
+                        <CModalTitle>Image</CModalTitle>
                       </CModalHeader>
+
                       <CModalBody>
-                        <CForm>
-                          {/* NAME */}
-                          <CFormLabel htmlFor="exampleFormControlInput1">Name</CFormLabel>
+                        <CModalBody>
+                          {/* BUTTON PILIH FILE */}
                           <CFormInput
-                            type="text"
-                            value={formEdit.name}
-                            className="form-control"
-                            id="name"
-                            onChange={(e) => setFormEdit({ name: e.target.value })}
-                          />
-
-                          {/* CATEGORY */}
-
-                          <CFormLabel htmlFor="exampleFormControlInput1">Category</CFormLabel>
-                          <CFormSelect
-                            id="inputGroupSelect01"
-                            onChange={(e) => setFormEdit({ categoryId: e.target.value })}
+                            type="file"
+                            id="inputGroupFile01"
+                            onChange={(e) => loadImageDesti(e)}
                             required
-                          >
-                            <option hidden>Category</option>
-                            {categories.map((cat, index) => (
-                              <option key={cat.id} value={cat.id}>
-                                {cat.name}
-                              </option>
-                            ))}
-                          </CFormSelect>
-
-                          {/* ADDRESS */}
-                          <CFormLabel htmlFor="exampleFormControlInput1">Address</CFormLabel>
-                          <CFormInput
-                            type="text"
-                            value={formEdit.address}
-                            className="form-control"
-                            id="address"
-                            onChange={(e) => setFormEdit({ address: e.target.value })}
                           />
+                          {previewImgDesti ? (
+                            <div className="col-auto">
+                              <img
+                                src={previewImgDesti}
+                                height="300px"
+                                className="preview-gambar"
+                              />
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                          <CModalBody>
+                            {/* BUTTON ADD IMAGE */}
+                            <CButton color="primary" onClick={() => btnAddImg(dest.id)}>
+                              Add Image
+                            </CButton>
+                          </CModalBody>
+                        </CModalBody>
 
-                          {/* OPEN DAY */}
-                          <CFormLabel htmlFor="exampleFormControlInput1">Open Day</CFormLabel>
-                          <CFormInput
-                            type="text"
-                            value={formEdit.open_day}
-                            className="form-control"
-                            id="open_day"
-                            onChange={(e) => setFormEdit({ open_day: e.target.value })}
-                          />
-
-                          {/* OPEN TIME */}
-                          <CFormLabel htmlFor="exampleFormControlInput1">Open Time</CFormLabel>
-                          <CFormInput
-                            type="text"
-                            value={formEdit.open_time}
-                            className="form-control"
-                            id="open_time"
-                            onChange={(e) => setFormEdit({ open_time: e.target.value })}
-                          />
-
-                          {/* MAP LINK */}
-                          <CFormLabel htmlFor="exampleFormControlInput1">Map Link</CFormLabel>
-                          <CFormInput
-                            type="text"
-                            value={formEdit.map_link}
-                            className="form-control"
-                            id="map_link"
-                            onChange={(e) => setFormEdit({ map_link: e.target.value })}
-                          />
-
-                          {/* DESCRIPTION  */}
-
-                          <CFormLabel htmlFor="exampleFormControlInput1">Description</CFormLabel>
-                          <CFormTextarea
-                            type="text"
-                            value={formEdit.description}
-                            className="form-control"
-                            id="description"
-                            onChange={(e) => setFormEdit({ description: e.target.value })}
-                          />
-                        </CForm>
+                        {/* CARD IMAGE */}
+                        <CRow className="align-items-start">
+                          {getDestiImg.length !== 0 ? (
+                            getDestiImg.map((destImg, index) => (
+                              <CCard key={index} style={{ width: '18rem' }}>
+                                <CCardImage
+                                  orientation="top"
+                                  height={200}
+                                  src={'http://localhost:3000/' + destImg.img}
+                                />
+                                <CCardBody>
+                                  <CButton
+                                    color="danger"
+                                    onClick={() => delImgDestination(destImg.id)}
+                                  >
+                                    <CIcon icon={cilTrash}></CIcon>
+                                  </CButton>
+                                </CCardBody>
+                              </CCard>
+                            ))
+                          ) : (
+                            <CSpinner size="sm" />
+                          )}
+                        </CRow>
                       </CModalBody>
                       <CModalFooter>
-                        <CButton color="secondary" onClick={() => setVisible2(false)}>
+                        <CButton color="secondary" onClick={() => setVisible4(false)}>
                           Close
-                        </CButton>
-                        <CButton color="primary" type="submit" onClick={() => submitEdit()}>
-                          Submit
                         </CButton>
                       </CModalFooter>
                     </CModal>
 
-                    {/* Button Delete */}
-                    <CButton
-                      color="danger"
-                      shape="rounded-pill"
-                      onClick={() => delDestination(dest.id)}
-                    >
-                      <CIcon icon={cilTrash}></CIcon>
-                    </CButton>
-                  </div>
-                </CTableDataCell>
-              </CTableRow>
-            ))}
+                    {/* EDIT BUTTON */}
+                    <div>
+                      <br></br>
+
+                      <CButton
+                        color="dark"
+                        shape="rounded-pill"
+                        onClick={() => (btnEdit(dest.id), setVisible2(!visible))}
+                      >
+                        <CIcon icon={cilNotes}></CIcon>
+                      </CButton>
+                      <a> </a>
+
+                      {/* MODAL EDIT */}
+                      <CModal
+                        scrollable
+                        size="xl"
+                        visible={visible2}
+                        onClose={() => setVisible2(false)}
+                      >
+                        <CModalHeader onClose={() => setVisible2(false)}>
+                          <CModalTitle>Edit Destination </CModalTitle>
+                        </CModalHeader>
+                        <CModalBody>
+                          <CForm>
+                            {/* NAME */}
+                            <CFormLabel htmlFor="exampleFormControlInput1">Name</CFormLabel>
+                            <CFormInput
+                              type="text"
+                              value={formEdit.name}
+                              className="form-control"
+                              id="name"
+                              onChange={(e) => setFormEdit({ name: e.target.value })}
+                            />
+
+                            {/* CATEGORY */}
+
+                            <CFormLabel htmlFor="exampleFormControlInput1">Category</CFormLabel>
+                            <CFormSelect
+                              id="inputGroupSelect01"
+                              onChange={(e) => setFormEdit({ categoryId: e.target.value })}
+                              required
+                            >
+                              <option hidden>Category</option>
+                              {categories.map((cat, index) => (
+                                <option key={cat.id} value={cat.id}>
+                                  {cat.name}
+                                </option>
+                              ))}
+                            </CFormSelect>
+
+                            {/* ADDRESS */}
+                            <CFormLabel htmlFor="exampleFormControlInput1">Address</CFormLabel>
+                            <CFormInput
+                              type="text"
+                              value={formEdit.address}
+                              className="form-control"
+                              id="address"
+                              onChange={(e) => setFormEdit({ address: e.target.value })}
+                            />
+
+                            {/* OPEN DAY */}
+                            <CFormLabel htmlFor="exampleFormControlInput1">Open Day</CFormLabel>
+                            <CFormInput
+                              type="text"
+                              value={formEdit.open_day}
+                              className="form-control"
+                              id="open_day"
+                              onChange={(e) => setFormEdit({ open_day: e.target.value })}
+                            />
+
+                            {/* OPEN TIME */}
+                            <CFormLabel htmlFor="exampleFormControlInput1">Open Time</CFormLabel>
+                            <CFormInput
+                              type="text"
+                              value={formEdit.open_time}
+                              className="form-control"
+                              id="open_time"
+                              onChange={(e) => setFormEdit({ open_time: e.target.value })}
+                            />
+
+                            {/* MAP LINK */}
+                            <CFormLabel htmlFor="exampleFormControlInput1">Map Link</CFormLabel>
+                            <CFormInput
+                              type="text"
+                              value={formEdit.map_link}
+                              className="form-control"
+                              id="map_link"
+                              onChange={(e) => setFormEdit({ map_link: e.target.value })}
+                            />
+
+                            {/* DESCRIPTION  */}
+
+                            <CFormLabel htmlFor="exampleFormControlInput1">Description</CFormLabel>
+                            <CFormTextarea
+                              type="text"
+                              value={formEdit.description}
+                              className="form-control"
+                              id="description"
+                              onChange={(e) => setFormEdit({ description: e.target.value })}
+                            />
+                          </CForm>
+                        </CModalBody>
+                        <CModalFooter>
+                          <CButton color="secondary" onClick={() => setVisible2(false)}>
+                            Close
+                          </CButton>
+                          <CButton color="primary" type="submit" onClick={() => submitEdit()}>
+                            Submit
+                          </CButton>
+                        </CModalFooter>
+                      </CModal>
+
+                      {/* Button Delete */}
+                      <CButton
+                        color="danger"
+                        shape="rounded-pill"
+                        onClick={() => delDestination(dest.id)}
+                      >
+                        <CIcon icon={cilTrash}></CIcon>
+                      </CButton>
+                    </div>
+                  </CTableDataCell>
+                </CTableRow>
+              ))
+            ) : (
+              <CSpinner size="sm" />
+            )}
           </CTableBody>
         </CTable>
       </CCard>

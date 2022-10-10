@@ -27,6 +27,7 @@ import {
   CModalFooter,
   CFormInput,
   CForm,
+  CSpinner,
 } from '@coreui/react'
 import { cilNotes, cilTrash } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -120,55 +121,63 @@ const Category = () => {
 
           {/* ISI TABLE CATEGORY */}
           <CTableBody>
-            {categories.map((cat, index) => (
-              <CTableRow v-for="item in tableItems" key={cat.id}>
-                <CTableDataCell>{index + 1}</CTableDataCell>
-                <CTableDataCell className="text-center">
-                  <strong>{cat.name}</strong>
-                </CTableDataCell>
+            {categories.length !== 0 ? (
+              categories.map((cat, index) => (
+                <CTableRow v-for="item in tableItems" key={cat.id}>
+                  <CTableDataCell>{index + 1}</CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    <strong>{cat.name}</strong>
+                  </CTableDataCell>
 
-                {/* ACTION */}
-                <CTableDataCell className="text-center">
-                  <CButton
-                    color="dark"
-                    shape="rounded-pill"
-                    onClick={() => (btnEdit(cat.id), setVisible2(!visible))}
-                  >
-                    <CIcon icon={cilNotes}></CIcon>
-                  </CButton>
-                  <a> </a>
-                  <CModal visible={visible2} onClose={() => setVisible2(false)}>
-                    <CModalHeader onClose={() => setVisible2(false)}>
-                      <CModalTitle>Edit Category </CModalTitle>
-                    </CModalHeader>
-                    <CModalBody>
-                      <CForm>
-                        <CFormInput
-                          type="text"
-                          value={formEdit.name}
-                          className="form-control"
-                          id="name"
-                          onChange={(e) => setFormEdit({ name: e.target.value })}
-                        />
-                      </CForm>
-                    </CModalBody>
-                    <CModalFooter>
-                      <CButton color="secondary" onClick={() => setVisible2(false)}>
-                        Close
-                      </CButton>
-                      <CButton color="primary" type="submit" onClick={() => submitEdit()}>
-                        Submit
-                      </CButton>
-                    </CModalFooter>
-                  </CModal>
+                  {/* ACTION */}
+                  <CTableDataCell className="text-center">
+                    <CButton
+                      color="dark"
+                      shape="rounded-pill"
+                      onClick={() => (btnEdit(cat.id), setVisible2(!visible))}
+                    >
+                      <CIcon icon={cilNotes}></CIcon>
+                    </CButton>
+                    <a> </a>
+                    <CModal visible={visible2} onClose={() => setVisible2(false)}>
+                      <CModalHeader onClose={() => setVisible2(false)}>
+                        <CModalTitle>Edit Category </CModalTitle>
+                      </CModalHeader>
+                      <CModalBody>
+                        <CForm>
+                          <CFormInput
+                            type="text"
+                            value={formEdit.name ? formEdit.name : <CSpinner size="sm" />}
+                            className="form-control"
+                            id="name"
+                            onChange={(e) => setFormEdit({ name: e.target.value })}
+                          />
+                        </CForm>
+                      </CModalBody>
+                      <CModalFooter>
+                        <CButton color="secondary" onClick={() => setVisible2(false)}>
+                          Close
+                        </CButton>
+                        <CButton color="primary" type="submit" onClick={() => submitEdit()}>
+                          Submit
+                        </CButton>
+                      </CModalFooter>
+                    </CModal>
 
-                  {/* Button Delete */}
-                  <CButton color="danger" shape="rounded-pill" onClick={() => delCategory(cat.id)}>
-                    <CIcon icon={cilTrash}></CIcon>
-                  </CButton>
-                </CTableDataCell>
-              </CTableRow>
-            ))}
+                    {/* Button Delete */}
+                    <CButton
+                      color="danger"
+                      shape="rounded-pill"
+                      onClick={() => delCategory(cat.id)}
+                    >
+                      <CIcon icon={cilTrash}></CIcon>
+                    </CButton>
+                  </CTableDataCell>
+                </CTableRow>
+              ))
+            ) : (
+              <CSpinner size="sm" />
+            )}
           </CTableBody>
         </CTable>
       </CCard>

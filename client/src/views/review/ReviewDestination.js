@@ -23,6 +23,7 @@ import {
   CCardSubtitle,
   CFormCheck,
   CAlert,
+  CSpinner,
 } from '@coreui/react'
 import { getReviewDestination, updIsVioloation } from '../../axios/axiosReviewDestination'
 
@@ -69,73 +70,77 @@ const ReviewDestination = () => {
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            {reviewDestination.map((revDest, index) => (
-              <CTableRow v-for="item in tableItems" key={revDest.id}>
-                {/* USER*/}
-                <CTableDataCell className="text-center">
-                  <CAvatar
-                    size="xl"
-                    src={'http://localhost:3000/' + revDest.user.images}
-                    status={revDest.user.status === 'active' ? 'success' : 'danger'}
-                  />
-                  <div>
-                    <strong>{revDest.user.name}</strong>
-                  </div>
-                  <div className="small text-medium-emphasis">
-                    <span>{revDest.user.email}</span>
-                  </div>
-                  <div className="small text-medium-emphasis">
-                    <span>{revDest.user.status}</span>
-                  </div>
-                </CTableDataCell>
+            {reviewDestination.length !== 0 ? (
+              reviewDestination.map((revDest, index) => (
+                <CTableRow v-for="item in tableItems" key={revDest.id}>
+                  {/* USER*/}
+                  <CTableDataCell className="text-center">
+                    <CAvatar
+                      size="xl"
+                      src={'http://localhost:3000/' + revDest.user.images}
+                      status={revDest.user.status === 'active' ? 'success' : 'danger'}
+                    />
+                    <div>
+                      <strong>{revDest.user.name}</strong>
+                    </div>
+                    <div className="small text-medium-emphasis">
+                      <span>{revDest.user.email}</span>
+                    </div>
+                    <div className="small text-medium-emphasis">
+                      <span>{revDest.user.status}</span>
+                    </div>
+                  </CTableDataCell>
 
-                {/* REVIEW */}
-                <CTableDataCell className="text-center">
-                  <CCard style={{ width: '18rem' }}>
-                    <CCardBody>
-                      <CCarousel controls>
-                        {revDest.images.map((image, index) => (
-                          <CCarouselItem key={image.id}>
-                            <CImage
-                              height={75}
-                              className="d-block w-100"
-                              src={'http://localhost:3000/' + image.img}
-                            />
-                          </CCarouselItem>
-                        ))}
-                      </CCarousel>
-                    </CCardBody>
-                    <CCardBody>
-                      <CCardTitle>{revDest.destination.name}</CCardTitle>
-                      <CCardTitle>{revDest.is_violation}</CCardTitle>
-                      <CCardText>
-                        <Rating initialValue={revDest.rating} readonly size="20px" />
-                      </CCardText>
-                      <CCardText>{revDest.comment}</CCardText>
-                    </CCardBody>
-                  </CCard>
-                </CTableDataCell>
-                {/* ACTION */}
-                <CTableDataCell>
-                  {revDest.is_violation === true ? (
-                    <CFormCheck
-                      inline
-                      id="inlineCheckbox1"
-                      onClick={() => btnEditFalse(revDest.id)}
-                      label="Comment is violation"
-                      defaultChecked
-                    />
-                  ) : (
-                    <CFormCheck
-                      inline
-                      id="inlineCheckbox1"
-                      onClick={() => btnEditTrue(revDest.id)}
-                      label="Comment is violation"
-                    />
-                  )}
-                </CTableDataCell>
-              </CTableRow>
-            ))}
+                  {/* REVIEW */}
+                  <CTableDataCell className="text-center">
+                    <CCard style={{ width: '18rem' }}>
+                      <CCardBody>
+                        <CCarousel controls>
+                          {revDest.images.map((image, index) => (
+                            <CCarouselItem key={image.id}>
+                              <CImage
+                                height={75}
+                                className="d-block w-100"
+                                src={'http://localhost:3000/' + image.img}
+                              />
+                            </CCarouselItem>
+                          ))}
+                        </CCarousel>
+                      </CCardBody>
+                      <CCardBody>
+                        <CCardTitle>{revDest.destination.name}</CCardTitle>
+                        <CCardTitle>{revDest.is_violation}</CCardTitle>
+                        <CCardText>
+                          <Rating initialValue={revDest.rating} readonly size="20px" />
+                        </CCardText>
+                        <CCardText>{revDest.comment}</CCardText>
+                      </CCardBody>
+                    </CCard>
+                  </CTableDataCell>
+                  {/* ACTION */}
+                  <CTableDataCell>
+                    {revDest.is_violation === true ? (
+                      <CFormCheck
+                        inline
+                        id="inlineCheckbox1"
+                        onClick={() => btnEditFalse(revDest.id)}
+                        label="Comment is violation"
+                        defaultChecked
+                      />
+                    ) : (
+                      <CFormCheck
+                        inline
+                        id="inlineCheckbox1"
+                        onClick={() => btnEditTrue(revDest.id)}
+                        label="Comment is violation"
+                      />
+                    )}
+                  </CTableDataCell>
+                </CTableRow>
+              ))
+            ) : (
+              <CSpinner size="sm" />
+            )}
           </CTableBody>
         </CTable>
       </CCard>

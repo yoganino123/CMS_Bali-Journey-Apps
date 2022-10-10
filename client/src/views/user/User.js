@@ -22,6 +22,7 @@ import {
   CFormSelect,
   CModalFooter,
   CFormInput,
+  CSpinner,
 } from '@coreui/react'
 import { getUser, getUserById, updUser, addUser } from '../../axios/axiosUser'
 import CIcon from '@coreui/icons-react'
@@ -139,111 +140,115 @@ const User = () => {
 
           {/* ISI TABLE DESTINATION */}
           <CTableBody>
-            {user.map((usr, index) => (
-              <CTableRow v-for="item in tableItems" key={usr.id}>
-                {/* NO */}
-                <CTableDataCell>
-                  <CAvatar
-                    size="md"
-                    src={'http://localhost:3000/' + usr.img}
-                    status={usr.status === 'active' ? 'success' : 'danger'}
-                  />
-                </CTableDataCell>
-                {/* USER */}
-                <CTableDataCell>
-                  <strong>{usr.name}</strong>
-                  <div className="small text-medium-emphasis">
-                    <span>{usr.email}</span>
-                  </div>
-                  <div className="small text-medium-emphasis">
-                    <span>{usr.status}</span>
-                  </div>
-                </CTableDataCell>
-                {/* LEVEL */}
-                <CTableDataCell>
-                  <div>{usr.level}</div>
-                </CTableDataCell>
-                {/* ACTION */}
-                <CTableDataCell className="text-center">
-                  {/* BUTTON EDIT LEVEL */}
-                  <CButton
-                    color="dark"
-                    shape="rounded-pill"
-                    onClick={() => (btnEdit(usr.id), setVisible(!visible))}
-                  >
-                    <CIcon icon={cilNotes}></CIcon> Level
-                  </CButton>
+            {user.length !== 0 ? (
+              user.map((usr, index) => (
+                <CTableRow v-for="item in tableItems" key={usr.id}>
+                  {/* NO */}
+                  <CTableDataCell>
+                    <CAvatar
+                      size="md"
+                      src={'http://localhost:3000/' + usr.img}
+                      status={usr.status === 'active' ? 'success' : 'danger'}
+                    />
+                  </CTableDataCell>
+                  {/* USER */}
+                  <CTableDataCell>
+                    <strong>{usr.name}</strong>
+                    <div className="small text-medium-emphasis">
+                      <span>{usr.email}</span>
+                    </div>
+                    <div className="small text-medium-emphasis">
+                      <span>{usr.status}</span>
+                    </div>
+                  </CTableDataCell>
+                  {/* LEVEL */}
+                  <CTableDataCell>
+                    <div>{usr.level}</div>
+                  </CTableDataCell>
+                  {/* ACTION */}
+                  <CTableDataCell className="text-center">
+                    {/* BUTTON EDIT LEVEL */}
+                    <CButton
+                      color="dark"
+                      shape="rounded-pill"
+                      onClick={() => (btnEdit(usr.id), setVisible(!visible))}
+                    >
+                      <CIcon icon={cilNotes}></CIcon> Level
+                    </CButton>
 
-                  <CModal visible={visible} onClose={() => setVisible(false)}>
-                    <CModalHeader onClose={() => setVisible(false)}>
-                      <CModalTitle>Edit User Level</CModalTitle>
-                    </CModalHeader>
-                    <CModalBody>
-                      <CForm>
-                        <CFormLabel htmlFor="exampleFormControlInput1">Level</CFormLabel>
-                        <CFormSelect
-                          id="inputGroupSelect01"
-                          onChange={(e) => setFormEdit({ level: e.target.value })}
-                          required
-                        >
-                          <option hidden value={formEdit.level}>
-                            {formEdit.level}
-                          </option>
-                          <option value={'user'}>user</option>
-                          <option value={'admin'}>admin</option>
-                        </CFormSelect>
-                      </CForm>
-                    </CModalBody>
-                    <CModalFooter>
-                      <CButton color="secondary" onClick={() => setVisible(false)}>
-                        Close
-                      </CButton>
-                      <CButton color="primary" type="submit" onClick={() => submitEdit()}>
-                        Submit
-                      </CButton>
-                    </CModalFooter>
-                  </CModal>
-                  <a> </a>
-                  <CButton
-                    color="primary"
-                    shape="rounded-pill"
-                    onClick={() => (btnEdit(usr.id), setVisible2(!visible))}
-                  >
-                    <CIcon icon={cilNotes}></CIcon> Status
-                  </CButton>
-                  <CModal visible={visible2} onClose={() => setVisible2(false)}>
-                    <CModalHeader onClose={() => setVisible2(false)}>
-                      <CModalTitle>Edit User Status</CModalTitle>
-                    </CModalHeader>
-                    <CModalBody>
-                      <CForm>
-                        <CFormLabel htmlFor="exampleFormControlInput1">Status</CFormLabel>
-                        <CFormSelect
-                          id="inputGroupSelect01"
-                          onChange={(e) => setFormEdit({ status: e.target.value })}
-                          required
-                        >
-                          <option hidden value={formEdit.status}>
-                            {formEdit.status}
-                          </option>
-                          <option value={'active'}>Active</option>
-                          <option value={'inactive'}>In Active</option>
-                          <option value={'blocked'}>Blocked</option>
-                        </CFormSelect>
-                      </CForm>
-                    </CModalBody>
-                    <CModalFooter>
-                      <CButton color="secondary" onClick={() => setVisible2(false)}>
-                        Close
-                      </CButton>
-                      <CButton color="primary" type="submit" onClick={() => submitEdit()}>
-                        Submit
-                      </CButton>
-                    </CModalFooter>
-                  </CModal>
-                </CTableDataCell>
-              </CTableRow>
-            ))}
+                    <CModal visible={visible} onClose={() => setVisible(false)}>
+                      <CModalHeader onClose={() => setVisible(false)}>
+                        <CModalTitle>Edit User Level</CModalTitle>
+                      </CModalHeader>
+                      <CModalBody>
+                        <CForm>
+                          <CFormLabel htmlFor="exampleFormControlInput1">Level</CFormLabel>
+                          <CFormSelect
+                            id="inputGroupSelect01"
+                            onChange={(e) => setFormEdit({ level: e.target.value })}
+                            required
+                          >
+                            <option hidden value={formEdit.level}>
+                              {formEdit.level}
+                            </option>
+                            <option value={'user'}>user</option>
+                            <option value={'admin'}>admin</option>
+                          </CFormSelect>
+                        </CForm>
+                      </CModalBody>
+                      <CModalFooter>
+                        <CButton color="secondary" onClick={() => setVisible(false)}>
+                          Close
+                        </CButton>
+                        <CButton color="primary" type="submit" onClick={() => submitEdit()}>
+                          Submit
+                        </CButton>
+                      </CModalFooter>
+                    </CModal>
+                    <a> </a>
+                    <CButton
+                      color="primary"
+                      shape="rounded-pill"
+                      onClick={() => (btnEdit(usr.id), setVisible2(!visible))}
+                    >
+                      <CIcon icon={cilNotes}></CIcon> Status
+                    </CButton>
+                    <CModal visible={visible2} onClose={() => setVisible2(false)}>
+                      <CModalHeader onClose={() => setVisible2(false)}>
+                        <CModalTitle>Edit User Status</CModalTitle>
+                      </CModalHeader>
+                      <CModalBody>
+                        <CForm>
+                          <CFormLabel htmlFor="exampleFormControlInput1">Status</CFormLabel>
+                          <CFormSelect
+                            id="inputGroupSelect01"
+                            onChange={(e) => setFormEdit({ status: e.target.value })}
+                            required
+                          >
+                            <option hidden value={formEdit.status}>
+                              {formEdit.status}
+                            </option>
+                            <option value={'active'}>Active</option>
+                            <option value={'inactive'}>In Active</option>
+                            <option value={'blocked'}>Blocked</option>
+                          </CFormSelect>
+                        </CForm>
+                      </CModalBody>
+                      <CModalFooter>
+                        <CButton color="secondary" onClick={() => setVisible2(false)}>
+                          Close
+                        </CButton>
+                        <CButton color="primary" type="submit" onClick={() => submitEdit()}>
+                          Submit
+                        </CButton>
+                      </CModalFooter>
+                    </CModal>
+                  </CTableDataCell>
+                </CTableRow>
+              ))
+            ) : (
+              <CSpinner size="sm" />
+            )}
           </CTableBody>
         </CTable>
       </CCard>

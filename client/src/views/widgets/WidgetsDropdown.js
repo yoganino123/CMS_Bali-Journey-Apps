@@ -16,6 +16,7 @@ import {
   CTableDataCell,
   CAvatar,
   CBadge,
+  CSpinner,
 } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react'
@@ -117,7 +118,7 @@ const WidgetsDropdown = () => {
             }
             icon={<CIcon icon={cilPuzzle} height={24} />}
             title="Category"
-            value={categories.length}
+            value={categories.length ? categories.length : <CSpinner color="secondary" size="sm" />}
           />
         </CCol>
         {/* Destination */}
@@ -138,7 +139,7 @@ const WidgetsDropdown = () => {
             }
             icon={<CIcon icon={cilCursor} height={24} />}
             title="Destination"
-            value={destination.length}
+            value={destination.length ? destination.length : <CSpinner color="primary" size="sm" />}
           />
         </CCol>
         {/* Package Trip */}
@@ -159,7 +160,7 @@ const WidgetsDropdown = () => {
             }
             icon={<CIcon icon={cilFlightTakeoff} height={24} />}
             title="Package Trip"
-            value={packageTrip.length}
+            value={packageTrip.length ? packageTrip.length : <CSpinner color="info" size="sm" />}
           />
         </CCol>
         {/* USER */}
@@ -180,7 +181,7 @@ const WidgetsDropdown = () => {
             }
             icon={<CIcon icon={cilGroup} height={24} />}
             title="User"
-            value={user.length}
+            value={user.length ? user.length : <CSpinner color="warning" size="sm" />}
           />
         </CCol>
       </CRow>
@@ -212,7 +213,13 @@ const WidgetsDropdown = () => {
                 }
                 icon={<CIcon icon={cilCart} height={24} />}
                 title="Transaction"
-                value={reportTransaction.length}
+                value={
+                  reportTransaction.length ? (
+                    reportTransaction.length
+                  ) : (
+                    <CSpinner color="danger" size="sm" />
+                  )
+                }
               />
             </CCol>
 
@@ -223,16 +230,26 @@ const WidgetsDropdown = () => {
                 color="success"
                 icon={<CIcon icon={cilDollar} height={24} />}
                 value={
-                  <h4>
-                    <strong>
-                      {new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
-                      }).format(orderIn)}
-                    </strong>
-                  </h4>
+                  orderIn.length !== 0 ? (
+                    <h4>
+                      <strong>
+                        {new Intl.NumberFormat('id-ID', {
+                          style: 'currency',
+                          currency: 'IDR',
+                        }).format(orderIn)}
+                      </strong>
+                    </h4>
+                  ) : (
+                    <CSpinner color="success" size="sm" />
+                  )
                 }
-                footer={`Total Order In = ${reportOrder.length}`}
+                footer={
+                  reportOrder.length !== 0 ? (
+                    `Total Order In = ${reportOrder.length}`
+                  ) : (
+                    <CSpinner color="light" size="sm" />
+                  )
+                }
               />
             </CCol>
           </CRow>
@@ -255,104 +272,108 @@ const WidgetsDropdown = () => {
             {/* isi table */}
 
             <CTableBody>
-              {reportOrder.map((rpt, index) => (
-                <CTableRow v-for="item in tableItems" key={rpt.id}>
-                  {/* USER */}
-                  <CTableDataCell className="text-center">
-                    <CAvatar size="xl" src={'http://localhost:3000/' + rpt.user_images} />
-                    <div>
-                      <strong>{rpt.name_user}</strong>
-                      <div className="small text-medium-emphasis">
-                        <span>{rpt.user_email}</span>
+              {reportOrder.length !== 0 ? (
+                reportOrder.map((rpt, index) => (
+                  <CTableRow v-for="item in tableItems" key={rpt.id}>
+                    {/* USER */}
+                    <CTableDataCell className="text-center">
+                      <CAvatar size="xl" src={'http://localhost:3000/' + rpt.user_images} />
+                      <div>
+                        <strong>{rpt.name_user}</strong>
+                        <div className="small text-medium-emphasis">
+                          <span>{rpt.user_email}</span>
+                        </div>
                       </div>
-                    </div>
-                  </CTableDataCell>
+                    </CTableDataCell>
 
-                  {/* OrderID */}
-                  <CTableDataCell>
-                    <strong className="text-primary">{rpt.payment_code}</strong>
-                  </CTableDataCell>
-                  {/* Product */}
-                  <CTableDataCell>
-                    <CTable align="middle" className="mb-5 border" hover responsive>
-                      <CTableHead color="light">
-                        <CTableRow>
-                          <CTableHeaderCell>Package Trip</CTableHeaderCell>
+                    {/* OrderID */}
+                    <CTableDataCell>
+                      <strong className="text-primary">{rpt.payment_code}</strong>
+                    </CTableDataCell>
+                    {/* Product */}
+                    <CTableDataCell>
+                      <CTable align="middle" className="mb-5 border" hover responsive>
+                        <CTableHead color="light">
+                          <CTableRow>
+                            <CTableHeaderCell>Package Trip</CTableHeaderCell>
 
-                          <CTableHeaderCell>Amount</CTableHeaderCell>
-                        </CTableRow>
-                      </CTableHead>
-                      <CTableBody>
-                        {rpt.cart_items.map((ci, index) => (
-                          <CTableRow v-for="item in tableItems" key={ci.id}>
-                            {/* Package Trip */}
-                            <CTableDataCell>
-                              <div>
-                                <strong>{ci.name}</strong>
-
+                            <CTableHeaderCell>Amount</CTableHeaderCell>
+                          </CTableRow>
+                        </CTableHead>
+                        <CTableBody>
+                          {rpt.cart_items.map((ci, index) => (
+                            <CTableRow v-for="item in tableItems" key={ci.id}>
+                              {/* Package Trip */}
+                              <CTableDataCell>
                                 <div>
-                                  <strong className="text-success">
+                                  <strong>{ci.name}</strong>
+
+                                  <div>
+                                    <strong className="text-success">
+                                      {' '}
+                                      <CIcon icon={cilCalendarCheck} /> {ci.date}
+                                    </strong>
+                                  </div>
+                                </div>
+                              </CTableDataCell>
+                              {/* Amount */}
+                              <CTableDataCell>
+                                {new Intl.NumberFormat('id-ID', {
+                                  style: 'currency',
+                                  currency: 'IDR',
+                                }).format(ci.price)}
+                                <div>
+                                  <strong className="text-warning">
                                     {' '}
-                                    <CIcon icon={cilCalendarCheck} /> {ci.date}
+                                    <CIcon icon={cilPeople} /> {ci.amount}
                                   </strong>
                                 </div>
-                              </div>
-                            </CTableDataCell>
-                            {/* Amount */}
-                            <CTableDataCell>
-                              {new Intl.NumberFormat('id-ID', {
-                                style: 'currency',
-                                currency: 'IDR',
-                              }).format(ci.price)}
-                              <div>
-                                <strong className="text-warning">
-                                  {' '}
-                                  <CIcon icon={cilPeople} /> {ci.amount}
-                                </strong>
-                              </div>
-                            </CTableDataCell>
-                          </CTableRow>
-                        ))}
-                      </CTableBody>
-                    </CTable>
-                  </CTableDataCell>
-                  {/* Total */}
-                  <CTableDataCell className="text-center">
-                    <div>
-                      <strong>
-                        {new Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                        }).format(rpt.total)}
-                      </strong>
-                    </div>
-                    {rpt.bank === 'bni' ? (
-                      <CAvatar
-                        src="http://localhost:3000/images/BNI.png"
-                        size="lg"
-                        shape="rounded-0"
-                      ></CAvatar>
-                    ) : rpt.bank === 'bca' ? (
-                      <CAvatar
-                        src="http://localhost:3000/images/BCA.jpg"
-                        size="lg"
-                        shape="rounded-0"
-                      ></CAvatar>
-                    ) : (
-                      <CAvatar
-                        src="http://localhost:3000/images/BRI.png"
-                        size="lg"
-                        shape="rounded-0"
-                      ></CAvatar>
-                    )}
-                  </CTableDataCell>
-                  {/* Status */}
-                  <CTableDataCell className="text-center">
-                    <CBadge color="success">{rpt.status === 'paid' ? 'PAID' : ' '}</CBadge>
-                    <div>{rpt.transaction_time}</div>
-                  </CTableDataCell>
-                </CTableRow>
-              ))}
+                              </CTableDataCell>
+                            </CTableRow>
+                          ))}
+                        </CTableBody>
+                      </CTable>
+                    </CTableDataCell>
+                    {/* Total */}
+                    <CTableDataCell className="text-center">
+                      <div>
+                        <strong>
+                          {new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                          }).format(rpt.total)}
+                        </strong>
+                      </div>
+                      {rpt.bank === 'bni' ? (
+                        <CAvatar
+                          src="http://localhost:3000/images/BNI.png"
+                          size="lg"
+                          shape="rounded-0"
+                        ></CAvatar>
+                      ) : rpt.bank === 'bca' ? (
+                        <CAvatar
+                          src="http://localhost:3000/images/BCA.jpg"
+                          size="lg"
+                          shape="rounded-0"
+                        ></CAvatar>
+                      ) : (
+                        <CAvatar
+                          src="http://localhost:3000/images/BRI.png"
+                          size="lg"
+                          shape="rounded-0"
+                        ></CAvatar>
+                      )}
+                    </CTableDataCell>
+                    {/* Status */}
+                    <CTableDataCell className="text-center">
+                      <CBadge color="success">{rpt.status === 'paid' ? 'PAID' : ' '}</CBadge>
+                      <div>{rpt.transaction_time}</div>
+                    </CTableDataCell>
+                  </CTableRow>
+                ))
+              ) : (
+                <CSpinner size="sm" color="secondary" />
+              )}
             </CTableBody>
           </CTable>
         </CCard>
